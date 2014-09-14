@@ -12,13 +12,19 @@ namespace Ricoh2DFramework.Input
         KeyboardState currentKeyState;
         KeyboardState previousKeyState;
 
-        GamePadState currentGamePadState;
-        GamePadState previousGamePadState;
+        Dictionary<PlayerIndex,GamePadState> currentGamePadState = new Dictionary<PlayerIndex,GamePadState>();
+        Dictionary<PlayerIndex, GamePadState> previousGamePadState = new Dictionary<PlayerIndex, GamePadState>();
 
         MouseState currentMouseState;
         MouseState previousMouseState;
 
         PlayerIndex index = PlayerIndex.One;
+
+        public PlayerIndex GamepadIndex
+        {
+            get { return index; }
+            set { index = value; }
+        }
 
         public enum MouseButtons
         {
@@ -53,14 +59,27 @@ namespace Ricoh2DFramework.Input
                 currentMouseState = Mouse.GetState();
             }
 
-            if (currentGamePadState == null && previousGamePadState == null)
+            if (currentGamePadState.Count == 0 && previousGamePadState.Count == 0)
             {
-                currentGamePadState = previousGamePadState = GamePad.GetState(index);
+                currentGamePadState.Add(PlayerIndex.One, GamePad.GetState(PlayerIndex.One));
+                previousGamePadState.Add(PlayerIndex.One, GamePad.GetState(PlayerIndex.One));
+                currentGamePadState.Add(PlayerIndex.Two, GamePad.GetState(PlayerIndex.Two));
+                previousGamePadState.Add(PlayerIndex.Two, GamePad.GetState(PlayerIndex.Two));
+                currentGamePadState.Add(PlayerIndex.Three, GamePad.GetState(PlayerIndex.Three));
+                previousGamePadState.Add(PlayerIndex.Three, GamePad.GetState(PlayerIndex.Three));
+                currentGamePadState.Add(PlayerIndex.Four, GamePad.GetState(PlayerIndex.Four));
+                previousGamePadState.Add(PlayerIndex.Four, GamePad.GetState(PlayerIndex.Four));
             }
             else
             {
-                previousGamePadState = currentGamePadState;
-                currentGamePadState = GamePad.GetState(index);
+                previousGamePadState[PlayerIndex.One] = currentGamePadState[PlayerIndex.One];
+                currentGamePadState[PlayerIndex.One] = GamePad.GetState(PlayerIndex.One);
+                previousGamePadState[PlayerIndex.Two] = currentGamePadState[PlayerIndex.Two];
+                currentGamePadState[PlayerIndex.Two] = GamePad.GetState(PlayerIndex.Two);
+                previousGamePadState[PlayerIndex.Three] = currentGamePadState[PlayerIndex.Three];
+                currentGamePadState[PlayerIndex.Three] = GamePad.GetState(PlayerIndex.Three);
+                previousGamePadState[PlayerIndex.Four] = currentGamePadState[PlayerIndex.Four];
+                currentGamePadState[PlayerIndex.Four] = GamePad.GetState(PlayerIndex.Four);
             }
         }
 
@@ -84,24 +103,39 @@ namespace Ricoh2DFramework.Input
             return (previousKeyState.IsKeyDown(key) && currentKeyState.IsKeyUp(key));
         }
 
+        public bool isGamePadConnected(PlayerIndex Index)
+        {
+            return GamePad.GetState(Index).IsConnected;
+        }
+
         public bool isGamePadButtonDown(Buttons button)
         {
-            return currentGamePadState.IsButtonDown(button);
+            return currentGamePadState[index].IsButtonDown(button);
         }
 
         public bool isGamePadButtonUp(Buttons button)
         {
-            return currentGamePadState.IsButtonUp(button);
+            return currentGamePadState[index].IsButtonUp(button);
         }
 
         public bool isGamePadButtonPressed(Buttons button)
         {
-            return (previousGamePadState.IsButtonUp(button) && currentGamePadState.IsButtonDown(button));
+            return (previousGamePadState[index].IsButtonUp(button) && currentGamePadState[index].IsButtonDown(button));
         }
 
         public bool isGamePadButtonReleased(Buttons button)
         {
-            return (previousGamePadState.IsButtonDown(button) && currentGamePadState.IsButtonUp(button));
+            return (previousGamePadState[index].IsButtonDown(button) && currentGamePadState[index].IsButtonUp(button));
+        }
+
+        public Vector2 LeftAnalogStick
+        {
+            get { return currentGamePadState[index].ThumbSticks.Left; }
+        }
+
+        public Vector2 RightAnalogStick
+        {
+            get { return currentGamePadState[index].ThumbSticks.Right; }
         }
 
         public bool isMouseButtonDown(MouseButtons button)
