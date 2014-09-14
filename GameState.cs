@@ -13,36 +13,49 @@ namespace Ricoh2DFramework
 {
     public class GameState
     {
-        Game game;
-        
-        public GameState(Game game)
+        protected RGame rGame;
+
+        public GameState()
         {
-            this.game = game;
+
+        }
+
+        public GameState(RGame game)
+        {
+            rGame = game;
             Initialize();
             LoadContent(game.Content);
         }
 
-        public void Initialize()
+        public void setGame(RGame game)
+        {
+            if (rGame == null)
+            {
+                rGame = game;
+            }
+        }
+
+        public virtual void Initialize()
         {
 
         }
 
-        public void LoadContent(ContentManager Content)
+        public virtual void LoadContent(ContentManager Content)
         {
 
         }
 
-        public void UnloadContent()
+        public virtual void UnloadContent()
         {
 
         }
 
-        public void Update(GameTime gameTime)
+        public virtual void Update(GameTime gameTime)
         {
 
         }
 
-        public void Draw(SpriteBatch spriteBatch)
+        public virtual void Draw(SpriteBatch spriteBatch)
         {
 
         }
