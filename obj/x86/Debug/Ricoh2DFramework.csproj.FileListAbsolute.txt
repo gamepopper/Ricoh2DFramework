@@ -1,0 +1,6 @@
+C:\Users\Owner\Documents\Visual Studio 2010\Projects\Ricoh2DFramework\bin\x86\Debug\Ricoh2DFramework.dll
+C:\Users\Owner\Documents\Visual Studio 2010\Projects\Ricoh2DFramework\bin\x86\Debug\Ricoh2DFramework.pdb
+C:\Users\Owner\Documents\Visual Studio 2010\Projects\Ricoh2DFramework\obj\x86\Debug\Ricoh2DFramework.csprojResolveAssemblyReference.cache
+C:\Users\Owner\Documents\Visual Studio 2010\Projects\Ricoh2DFramework\obj\x86\Debug\Microsoft.Xna.Framework.RuntimeProfile.txt
+C:\Users\Owner\Documents\Visual Studio 2010\Projects\Ricoh2DFramework\obj\x86\Debug\Ricoh2DFramework.dll
+C:\Users\Owner\Documents\Visual Studio 2010\Projects\Ricoh2DFramework\obj\x86\Debug\Ricoh2DFramework.pdb
