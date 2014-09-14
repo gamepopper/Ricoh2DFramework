@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Ricoh2DFramework.Graphics
 {
-    public class ResolutionIndependance  //code based off RoboBlob's method for solving resolution independance
+    public class Resolution  //code based off RoboBlob's method for solving resolution independance
     {
         private readonly Game game;
         private Viewport viewport;
@@ -19,7 +19,7 @@ namespace Ricoh2DFramework.Graphics
         public bool RenderingToScreenIsFinished;
         private static Matrix scaleMatrix;
 
-        public ResolutionIndependance(Game _game, int virtualWidth = 1366, int virtualHeight = 768, int screenWidth = 1920, int screenHeight = 1080)
+        public Resolution(Game _game, int virtualWidth = 1366, int virtualHeight = 768, int screenWidth = 1920, int screenHeight = 1080)
         {
             game = _game;
 

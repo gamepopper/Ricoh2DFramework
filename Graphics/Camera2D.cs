@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace Ricoh2DFramework.Graphics
 {
@@ -15,12 +16,19 @@ namespace Ricoh2DFramework.Graphics
         private Matrix camScale = Matrix.Identity;
         private Matrix resTranslate = Matrix.Identity;
 
-        protected ResolutionIndependance ResIndependantRenderer;
+        protected Resolution ResIndependantRenderer;
         private Vector3 camTranslateVector = Vector3.Zero;
         private Vector3 camScaleVector = Vector3.Zero;
         private Vector3 resTranslateVector = Vector3.Zero;
 
-        public Camera2D(ResolutionIndependance resIndependant)
+        public SpriteSortMode sortMode = SpriteSortMode.Deferred;
+        public BlendState blendState = BlendState.AlphaBlend;
+        public SamplerState samplerState = SamplerState.LinearWrap;
+        public DepthStencilState depthStencil = DepthStencilState.None;
+        public RasterizerState rasterizer = RasterizerState.CullNone;
+        public Effect effect = null;
+
+        public Camera2D(Resolution resIndependant)
         {
             ResIndependantRenderer = resIndependant;
 
@@ -111,6 +119,11 @@ namespace Ricoh2DFramework.Graphics
         public void RecalculateTransformationMatrix()
         {
             dirtyTransform = true;
+        }
+
+        public void BeginDraw(SpriteBatch spriteBatch)
+        {
+            spriteBatch.Begin(sortMode, blendState, samplerState, depthStencil, rasterizer, effect, GetViewTransformationMatrix());
         }
     }
 }
