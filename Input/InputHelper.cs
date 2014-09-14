@@ -20,6 +20,16 @@ namespace Ricoh2DFramework.Input
 
         PlayerIndex index = PlayerIndex.One;
 
+        public enum MouseButtons
+        {
+            LEFT,
+            MIDDLE,
+            RIGHT,
+            XBUTTON1,
+            XBUTTON2
+        }
+
+        public InputHelper() { }
 
         public void Update()
         {
@@ -94,6 +104,106 @@ namespace Ricoh2DFramework.Input
             return (previousGamePadState.IsButtonDown(button) && currentGamePadState.IsButtonUp(button));
         }
 
+        public bool isMouseButtonDown(MouseButtons button)
+        {
+            switch (button)
+            {
+                case MouseButtons.LEFT:
+                    return currentMouseState.LeftButton == ButtonState.Pressed;
+                case MouseButtons.MIDDLE:
+                    return currentMouseState.MiddleButton == ButtonState.Pressed;
+                case MouseButtons.RIGHT:
+                    return currentMouseState.RightButton == ButtonState.Pressed;
+                case MouseButtons.XBUTTON1:
+                    return currentMouseState.XButton1 == ButtonState.Pressed;
+                case MouseButtons.XBUTTON2:
+                    return currentMouseState.XButton2 == ButtonState.Pressed;
+                default:
+                    return false;
+            }
+        }
 
+        public bool isMouseButtonUp(MouseButtons button)
+        {
+            switch (button)
+            {
+                case MouseButtons.LEFT:
+                    return currentMouseState.LeftButton == ButtonState.Released;
+                case MouseButtons.MIDDLE:
+                    return currentMouseState.MiddleButton == ButtonState.Released;
+                case MouseButtons.RIGHT:
+                    return currentMouseState.RightButton == ButtonState.Released;
+                case MouseButtons.XBUTTON1:
+                    return currentMouseState.XButton1 == ButtonState.Released;
+                case MouseButtons.XBUTTON2:
+                    return currentMouseState.XButton2 == ButtonState.Released;
+                default:
+                    return false;
+            }
+        }
+
+        public bool isMouseButtonPressed(MouseButtons button)
+        {
+            switch (button)
+            {
+                case MouseButtons.LEFT:
+                    return (previousMouseState.LeftButton == ButtonState.Released && currentMouseState.LeftButton == ButtonState.Pressed);
+                case MouseButtons.MIDDLE:
+                    return (previousMouseState.MiddleButton == ButtonState.Released && currentMouseState.MiddleButton == ButtonState.Pressed);
+                case MouseButtons.RIGHT:
+                    return (previousMouseState.RightButton == ButtonState.Released && currentMouseState.RightButton == ButtonState.Pressed);
+                case MouseButtons.XBUTTON1:
+                    return (previousMouseState.XButton1 == ButtonState.Released && currentMouseState.XButton1 == ButtonState.Pressed);
+                case MouseButtons.XBUTTON2:
+                    return (previousMouseState.XButton2 == ButtonState.Released && currentMouseState.XButton2 == ButtonState.Pressed);
+                default:
+                    return false;
+            }
+        }
+
+        public bool isMouseButtonReleased(MouseButtons button)
+        {
+            switch (button)
+            {
+                case MouseButtons.LEFT:
+                    return (previousMouseState.LeftButton == ButtonState.Pressed && currentMouseState.LeftButton == ButtonState.Released);
+                case MouseButtons.MIDDLE:
+                    return (previousMouseState.MiddleButton == ButtonState.Pressed && currentMouseState.MiddleButton == ButtonState.Released);
+                case MouseButtons.RIGHT:
+                    return (previousMouseState.RightButton == ButtonState.Pressed && currentMouseState.RightButton == ButtonState.Released);
+                case MouseButtons.XBUTTON1:
+                    return (previousMouseState.XButton1 == ButtonState.Pressed && currentMouseState.XButton1 == ButtonState.Released);
+                case MouseButtons.XBUTTON2:
+                    return (previousMouseState.XButton2 == ButtonState.Pressed && currentMouseState.XButton2 == ButtonState.Released);
+                default:
+                    return false;
+            }
+        }
+
+        public Vector2 MouseCoordinates
+        {
+            get { return new Vector2(currentMouseState.X, currentMouseState.Y); }
+        }
+
+        public Vector2 MouseVelocity
+        {
+            get
+            {
+                Vector2 prevPos = new Vector2(previousMouseState.X, previousMouseState.Y);
+                Vector2 currPos = new Vector2(currentMouseState.X, currentMouseState.Y);
+
+                return currPos - prevPos;
+            }
+        }
+
+        public int MouseScrollWheel
+        {
+            get { return currentMouseState.ScrollWheelValue; }
+        }
+
+        public int MouseScrollWheelVelocity
+        {
+            get { return currentMouseState.ScrollWheelValue - previousMouseState.ScrollWheelValue; }
+        }
     }
 }
