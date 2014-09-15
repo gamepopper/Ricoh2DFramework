@@ -1,4 +1,4 @@
-Ricoh2DFramework
+Ricoh2D Framework
 ================
 2D Games Framework for Microsoft XNA/MonoGame. Aim is to use this as a base framework for simple 2D games, all work in progress.
 
