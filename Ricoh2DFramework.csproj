@@ -73,7 +73,9 @@
     <Compile Include="Graphics\Primitives.cs" />
     <Compile Include="Graphics\Resolution.cs" />
     <Compile Include="Graphics\Sprite.cs" />
+    <Compile Include="Graphics\Text.cs" />
     <Compile Include="Input\InputHelper.cs" />
+    <Compile Include="Input\InputProperties.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RGame.cs" />
   </ItemGroup>
