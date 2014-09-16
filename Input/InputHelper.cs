@@ -5,6 +5,29 @@ using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 
+/*The MIT License (MIT)
+
+Copyright (c) 2014 Gamepopper
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+*/
+
 namespace Ricoh2DFramework.Input
 {
     public class InputHelper
@@ -20,19 +43,13 @@ namespace Ricoh2DFramework.Input
 
         PlayerIndex index = PlayerIndex.One;
 
+        public bool InvertedLeft = false;
+        public bool InvertedRight = false;
+
         public PlayerIndex GamepadIndex
         {
             get { return index; }
             set { index = value; }
-        }
-
-        public enum MouseButtons
-        {
-            LEFT,
-            MIDDLE,
-            RIGHT,
-            XBUTTON1,
-            XBUTTON2
         }
 
         public InputHelper() { }
@@ -130,12 +147,36 @@ namespace Ricoh2DFramework.Input
 
         public Vector2 LeftAnalogStick
         {
-            get { return currentGamePadState[index].ThumbSticks.Left; }
+            get 
+            {
+                if (InvertedLeft)
+                    return new Vector2(currentGamePadState[index].ThumbSticks.Left.X,
+                        -currentGamePadState[index].ThumbSticks.Left.Y);
+                else
+                    return currentGamePadState[index].ThumbSticks.Left; 
+            }
         }
 
         public Vector2 RightAnalogStick
         {
-            get { return currentGamePadState[index].ThumbSticks.Right; }
+            get 
+            {
+                if (InvertedRight)
+                    return new Vector2(currentGamePadState[index].ThumbSticks.Right.X,
+                        -currentGamePadState[index].ThumbSticks.Right.Y);
+                else
+                    return currentGamePadState[index].ThumbSticks.Right; 
+            }
+        }
+
+        public float LeftTrigger
+        {
+            get { return currentGamePadState[index].Triggers.Left; }
+        }
+
+        public float RightTrigger
+        {
+            get { return currentGamePadState[index].Triggers.Right; }
         }
 
         public bool isMouseButtonDown(MouseButtons button)
