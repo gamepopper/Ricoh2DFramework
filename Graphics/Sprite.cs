@@ -2,6 +2,29 @@
 using Microsoft.Xna.Framework.Graphics;
 using Ricoh2DFramework.Collisions;
 
+/*The MIT License (MIT)
+
+Copyright (c) 2014 Gamepopper
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+*/
+
 namespace Ricoh2DFramework.Graphics
 {
     public class Sprite
@@ -82,6 +105,23 @@ namespace Ricoh2DFramework.Graphics
             }
         }
 
+        public Color Tint
+        {
+            get { return tint; }
+            set { tint = value; }
+        }
+
+        public float Opacity
+        {
+            get { return opacity; }
+            set { opacity = value; }
+        }
+        public float Depth
+        {
+            get { return depth; }
+            set { depth = value; }
+        }
+
         public int Width
         {
             get { return width; }
@@ -126,10 +166,10 @@ namespace Ricoh2DFramework.Graphics
                 else
                 {
                     Matrix boxTransform = Matrix.Identity;
-                    boxTransform *= Matrix.CreateTranslation(new Vector3(-PositionCentre, 0));
+                    boxTransform *= Matrix.CreateTranslation(new Vector3(-position, 0));
                     boxTransform *= Matrix.CreateScale(new Vector3(scale, 1));
                     boxTransform *= Matrix.CreateRotationZ(rotation);
-                    boxTransform *= Matrix.CreateTranslation(new Vector3(PositionCentre, 0));
+                    boxTransform *= Matrix.CreateTranslation(new Vector3(position, 0));
                     
                     // From AustinCC.edu
                     // Get all four corners in local space
@@ -177,7 +217,10 @@ namespace Ricoh2DFramework.Graphics
             }
         }
 
-        bool dirtyTransform = true;
+        protected bool dirtyTransform = true;
+
+        public bool immoveable = false;
+        public bool solid = false;
 
         public Sprite(Texture2D texture, int width = 0, int height = 0)
         {
@@ -214,8 +257,11 @@ namespace Ricoh2DFramework.Graphics
         {
             animation.Update(gameTime);
 
-            Velocity += Acceleration * (float)gameTime.ElapsedGameTime.TotalSeconds;
-            Position += Velocity * (float)gameTime.ElapsedGameTime.TotalSeconds;
+            if (!immoveable)
+            {
+                Velocity += Acceleration * (float)gameTime.ElapsedGameTime.TotalSeconds;
+                Position += Velocity * (float)gameTime.ElapsedGameTime.TotalSeconds;
+            }
 
             if (dirtyTransform)
             {
@@ -227,8 +273,8 @@ namespace Ricoh2DFramework.Graphics
 
                 Vector2 centrePos = PositionCentre;
 
-                collisionBox.X = (int)(centrePos.X - (width / 2));
-                collisionBox.Y = (int)(centrePos.Y - (height / 2));
+                collisionBox.X = (int)(position.X - origin.X);
+                collisionBox.Y = (int)(position.Y - origin.Y);
                 collisionBox.Width = width;
                 collisionBox.Height = height;
                 collisionBox.Inflate(collisionOffset, collisionOffset);

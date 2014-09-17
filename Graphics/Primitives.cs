@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Ricoh2DFramework.Collisions;
@@ -15,16 +16,16 @@ namespace Ricoh2DFramework.Graphics
             debugTexture.SetData<Color>(new Color[] { Color.White });
         }
 
-        public static void DrawRectangle(SpriteBatch spriteBatch, Rectangle rectangle, Color color, bool filled=false, int thickness=1)
+        public static void DrawRectangle(SpriteBatch spriteBatch, Rectangle Rectangle, Color color, bool filled=false, int thickness=1)
         {
             if (filled)
-                spriteBatch.Draw(debugTexture, rectangle, color);
+                spriteBatch.Draw(debugTexture, Rectangle, color);
             else
             {
-                Vector2 leftTop = new Vector2(rectangle.Left, rectangle.Top);
-                Vector2 rightTop = new Vector2(rectangle.Right, rectangle.Top);
-                Vector2 leftBottom = new Vector2(rectangle.Left, rectangle.Bottom);
-                Vector2 rightBottom = new Vector2(rectangle.Right, rectangle.Bottom);
+                Vector2 leftTop = new Vector2(Rectangle.Left, Rectangle.Top);
+                Vector2 rightTop = new Vector2(Rectangle.Right, Rectangle.Top);
+                Vector2 leftBottom = new Vector2(Rectangle.Left, Rectangle.Bottom);
+                Vector2 rightBottom = new Vector2(Rectangle.Right, Rectangle.Bottom);
 
                 DrawLine(spriteBatch, leftTop, rightTop, color, thickness);
                 DrawLine(spriteBatch, rightTop, rightBottom, color, thickness);
@@ -84,9 +85,9 @@ namespace Ricoh2DFramework.Graphics
             DrawRectangle(spriteBatch, new Rectangle((int)Position.X, (int)Position.Y, 1, 1), color, true);
         }
 
-        public static void DrawLine(SpriteBatch spriteBatch, Line line, Color color, int thickness = 1)
+        public static void DrawLine(SpriteBatch spriteBatch, Line Line, Color color, int thickness = 1)
         {
-            DrawLine(spriteBatch, line.StartPoint, line.EndPoint, color, thickness);
+            DrawLine(spriteBatch, Line.StartPoint, Line.EndPoint, color, thickness);
         }
         public static void DrawLine(SpriteBatch spriteBatch, Vector2 start, Vector2 end, Color color, int thickness=1)
         {
@@ -94,6 +95,15 @@ namespace Ricoh2DFramework.Graphics
             float angle = (float)Math.Atan2(edge.Y, edge.X);
 
             spriteBatch.Draw(debugTexture, new Rectangle((int)start.X,(int)start.Y,(int)edge.Length(), thickness), null, color, angle, new Vector2(0, 0), SpriteEffects.None, 0);
+        }
+        public static void DrawPolygon(SpriteBatch spriteBatch, Polygon Polygon, Color color, int thickness = 1)
+        {
+            List<Line> lines = Polygon.getTransformedLines();
+
+            foreach (Line l in lines)
+            {
+                DrawLine(spriteBatch, l, color, thickness);
+            }
         }
     }
 }

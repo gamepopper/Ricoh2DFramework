@@ -3,6 +3,29 @@ using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
+/*The MIT License (MIT)
+
+Copyright (c) 2014 Gamepopper
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+*/
+
 namespace Ricoh2DFramework.Collisions
 {
     public class CollisionManager
@@ -58,42 +81,6 @@ namespace Ricoh2DFramework.Collisions
             if (ua < 0 || ua > 1 || ub < 0 || ub > 1) return false;
 
             return true;
-        }
-
-        public static bool PixelCollision(Rectangle rectangleA, Color[] dataA, Rectangle rectangleB, Color[] dataB)
-        {
-            if (BoxCollision(rectangleA, rectangleB))
-            {
-                //Original Code by Rob Carr
-
-                // Find the bounds of the rectangle intersection
-                int top = Math.Max(rectangleA.Top, rectangleB.Top);
-                int bottom = Math.Min(rectangleA.Bottom, rectangleB.Bottom);
-                int left = Math.Max(rectangleA.Left, rectangleB.Left);
-                int right = Math.Min(rectangleA.Right, rectangleB.Right);
-
-                // Check every point within the intersection bounds
-                for (int y = top; y < bottom; y++)
-                {
-                    for (int x = left; x < right; x++)
-                    {
-                        // Get the color of both pixels at this point
-                        Color colorA = dataA[(x - rectangleA.Left) +
-                                             (y - rectangleA.Top) * rectangleA.Width];
-                        Color colorB = dataB[(x - rectangleB.Left) +
-                                             (y - rectangleB.Top) * rectangleB.Width];
-
-                        // If both pixels are not completely transparent,
-                        if (colorA.A != 0 && colorB.A != 0)
-                        {
-                            // then an intersection has been found
-                            return true;
-                        }
-                    }
-                }
-            }
-            // No intersection found
-            return false;
         }
 
         public static bool PixelCollision(Matrix transformA, Rectangle boxA, Color[] dataA, Matrix transformB, Rectangle boxB, Color[] dataB)
