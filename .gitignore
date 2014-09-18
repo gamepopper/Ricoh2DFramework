@@ -35,4 +35,9 @@ Icon
 .Spotlight-V100
 .Trashes
 
+# Binary Files
 *.dll
+*.pdb
+
+/bin/*
+/obj/*
