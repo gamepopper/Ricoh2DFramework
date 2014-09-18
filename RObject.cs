@@ -3,11 +3,62 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Ricoh2DFramework.Collisions;
 
+/*The MIT License (MIT)
+
+Copyright (c) 2014 Gamepopper
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+*/
+
 namespace Ricoh2DFramework
 {
     public class RObject : RBasic
     {
         public Matrix Transform;
+
+        protected virtual Vector2 centre
+        {
+            get
+            {
+                if (origin.X == width / 2 && origin.Y == height / 2)
+                {
+                    return origin;
+                }
+
+                Vector2 centre = new Vector2(width / 2, height / 2);
+
+                Matrix transform = Matrix.Identity *
+                    Matrix.CreateTranslation(-origin.X, -origin.Y, 0) *
+                    Matrix.CreateScale(new Vector3(scale, 1)) *
+                    Matrix.CreateRotationZ(rotation) *
+                    Matrix.CreateTranslation(origin.X, origin.Y, 0);
+
+                return Vector2.Transform(centre, transform);
+            }
+        }
+        public Vector2 PositionCentre
+        {
+            get
+            {
+                return position - origin + centre;
+            }
+        }
 
         public Vector2 Velocity;
         public Vector2 Acceleration;
@@ -59,8 +110,8 @@ namespace Ricoh2DFramework
                                               Vector2.Max(leftBottom, rightBottom));
 
                     // Return as a rectangle
-                    return new Rectangle((int)min.X, (int)min.Y,
-                                         (int)(max.X - min.X), (int)(max.Y - min.Y));
+                    return new Rectangle((int)Math.Ceiling(min.X), (int)Math.Ceiling(min.Y),
+                                         (int)Math.Ceiling(max.X - min.X), (int)Math.Ceiling(max.Y - min.Y));
                 }
             }
         }

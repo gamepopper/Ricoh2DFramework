@@ -62,7 +62,9 @@
     <Compile Include="Audio\MusicManager.cs" />
     <Compile Include="Audio\SoundManager.cs" />
     <Compile Include="Collisions\Circle.cs" />
+    <Compile Include="Collisions\CollisionListener.cs" />
     <Compile Include="Collisions\CollisionManager.cs" />
+    <Compile Include="Collisions\CollisionStates.cs" />
     <Compile Include="Collisions\Line.cs" />
     <Compile Include="Collisions\Polygon.cs" />
     <Compile Include="GameState.cs" />
@@ -71,7 +73,9 @@
     <Compile Include="Graphics\AnimationStates.cs" />
     <Compile Include="Graphics\Camera2D.cs" />
     <Compile Include="Graphics\Primitives.cs" />
+    <Compile Include="RBasic.cs" />
     <Compile Include="Graphics\Resolution.cs" />
+    <Compile Include="RObject.cs" />
     <Compile Include="Graphics\Sprite.cs" />
     <Compile Include="Graphics\Text.cs" />
     <Compile Include="Graphics\TextStates.cs" />
