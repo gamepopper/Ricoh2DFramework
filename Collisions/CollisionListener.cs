@@ -47,9 +47,6 @@ namespace Ricoh2DFramework.Collisions
         {
             List<Line> LinesA = polygonA.getTransformedLines();
             List<Line> LinesB = polygonB.getTransformedLines();
-
-            List<Line> Points = new List<Line>();
-            int PointIntersectCount = 0;
             
             foreach (Line lineA in LinesA)
             {
@@ -64,45 +61,15 @@ namespace Ricoh2DFramework.Collisions
 
             foreach (Line lineA in LinesA)
             {
-                Points.Add(new Line(lineA.StartPoint, new Vector2(lineA.StartPoint.X + 10000, lineA.StartPoint.Y)));
-            }
-
-            foreach (Line P in Points)
-            {
-                PointIntersectCount = 0;
-                foreach (Line L in LinesB)
-                {
-                    if (LineIntersect(P, L))
-                    {
-                        PointIntersectCount++;
-                    }
-                }
-
-                if (PointIntersectCount % 2 != 0)
+                if (PointOverlap(lineA.StartPoint, LinesB))
                 {
                     return true;
                 }
             }
 
-            PointIntersectCount = 0;
-            Points.Clear();
             foreach (Line lineB in LinesB)
             {
-                Points.Add(new Line(lineB.StartPoint, new Vector2(lineB.StartPoint.X + 10000, lineB.StartPoint.Y)));
-            }
-
-            foreach (Line P in Points)
-            {
-                PointIntersectCount = 0;
-                foreach (Line L in LinesA)
-                {
-                    if (LineIntersect(P, L))
-                    {
-                        PointIntersectCount++;
-                    }
-                }
-
-                if (PointIntersectCount % 2 != 0)
+                if (PointOverlap(lineB.StartPoint, LinesA))
                 {
                     return true;
                 }
@@ -127,6 +94,28 @@ namespace Ricoh2DFramework.Collisions
             if (ua < 0 || ua > 1 || ub < 0 || ub > 1) return false;
 
             return true;
+        }
+
+        private static bool PointOverlap(Vector2 Point, List<Line> Polygon)
+        {
+            int PointIntersectCount = 0;
+
+            Line test = new Line(Point, new Vector2(Point.X + 10000, Point.Y));
+
+            foreach (Line L in Polygon)
+            {
+                if (LineIntersect(test, L))
+                {
+                    PointIntersectCount++;
+                }
+            }
+            
+            if (PointIntersectCount % 2 != 0)
+            {
+                return true;
+            }
+
+            return false;
         }
 
         public static bool PixelCollision(Matrix transformA, Rectangle boxA, Color[] dataA, Matrix transformB, Rectangle boxB, Color[] dataB)
