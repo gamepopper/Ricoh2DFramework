@@ -28,22 +28,11 @@ THE SOFTWARE.
 
 namespace Ricoh2DFramework.Graphics
 {
-    public class Text
+    public class Text : RBasic
     {     
         protected SpriteFont Font;
         protected String textString;
         protected TextAlignment alignment;
-        protected Vector2 position;
-        protected float rotation;
-        protected Vector2 scale;
-        protected SpriteEffects spriteEffects;
-        protected Color color;
-        protected float opacity;
-        protected float depth;
-
-        protected int width;
-        protected int height;
-        protected Vector2 origin;
 
         public String TextString
         {
@@ -67,80 +56,6 @@ namespace Ricoh2DFramework.Graphics
             }
         }
         public bool Multiline = false;
-        public Vector2 Position
-        {
-            get { return position; }
-            set
-            {
-                position = value;
-                dirtyTransform = true;
-            }
-        }
-        public float Rotation
-        {
-            get { return rotation; }
-            set
-            {
-                rotation = value;
-
-                if (rotation >= 2 * MathHelper.Pi)
-                    rotation -= 2 * MathHelper.Pi;
-                else if (rotation < 0)
-                    rotation += 2 * MathHelper.Pi;
-
-                dirtyTransform = true;
-            }
-        }
-        public Vector2 Scale
-        {
-            get { return scale; }
-            set
-            {
-                scale = value;
-                dirtyTransform = true;
-            }
-        }
-
-        public Color Color
-        {
-            get { return color; }
-            set { color = value; }
-        }
-
-        public float Opacity
-        {
-            get { return opacity; }
-            set { opacity = value; }
-        }
-        public float Depth
-        {
-            get { return depth; }
-            set { depth = value; }
-        }
-
-        public int Width
-        {
-            get { return width; }
-            set 
-            { 
-                width = value; 
-                dirtyTransform = true; 
-            }
-        }
-        public int Height
-        {
-            get { return height; }
-        }
-        public Vector2 Origin
-        {
-            get { return origin; }
-            set
-            {
-                origin = value;
-            }
-        }
-
-        protected bool dirtyTransform = true;
 
         public Text(SpriteFont Font, String Text, int Width, TextAlignment alignment=TextAlignment.LEFT)
         {
