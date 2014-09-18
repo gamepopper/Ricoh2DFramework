@@ -38,6 +38,7 @@ Icon
 # Binary Files
 *.dll
 *.pdb
+*.suo
 
 /bin/*
 /obj/*
