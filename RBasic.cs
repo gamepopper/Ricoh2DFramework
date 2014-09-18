@@ -2,7 +2,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace Ricoh2DFramework.Graphics
+namespace Ricoh2DFramework
 {
     public class RBasic
     {

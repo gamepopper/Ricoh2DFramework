@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Ricoh2DFramework.Collisions;
 
-namespace Ricoh2DFramework.Graphics
+namespace Ricoh2DFramework
 {
     public class RObject : RBasic
     {
