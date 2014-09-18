@@ -47,6 +47,9 @@ namespace Ricoh2DFramework.Collisions
         {
             List<Line> LinesA = polygonA.getTransformedLines();
             List<Line> LinesB = polygonB.getTransformedLines();
+
+            List<Line> Points = new List<Line>();
+            int PointIntersectCount = 0;
             
             foreach (Line lineA in LinesA)
             {
@@ -56,6 +59,52 @@ namespace Ricoh2DFramework.Collisions
                     {
                         return true;
                     }
+                }
+            }
+
+            foreach (Line lineA in LinesA)
+            {
+                Points.Add(new Line(lineA.StartPoint, new Vector2(lineA.StartPoint.X + 10000, lineA.StartPoint.Y)));
+            }
+
+            foreach (Line P in Points)
+            {
+                PointIntersectCount = 0;
+                foreach (Line L in LinesB)
+                {
+                    if (LineIntersect(P, L))
+                    {
+                        PointIntersectCount++;
+                    }
+                }
+
+                if (PointIntersectCount % 2 != 0)
+                {
+                    return true;
+                }
+            }
+
+            PointIntersectCount = 0;
+            Points.Clear();
+            foreach (Line lineB in LinesB)
+            {
+                Points.Add(new Line(lineB.StartPoint, new Vector2(lineB.StartPoint.X + 10000, lineB.StartPoint.Y)));
+            }
+
+            foreach (Line P in Points)
+            {
+                PointIntersectCount = 0;
+                foreach (Line L in LinesA)
+                {
+                    if (LineIntersect(P, L))
+                    {
+                        PointIntersectCount++;
+                    }
+                }
+
+                if (PointIntersectCount % 2 != 0)
+                {
+                    return true;
                 }
             }
 
