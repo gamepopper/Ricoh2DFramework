@@ -65,7 +65,22 @@ namespace Ricoh2DFramework.Graphics
         {
             if (filled)
             {
+                Radius *= 2;
+                
+                float diam = Radius/2;
+                float diamsq = diam * diam;
 
+                for (int x = 0; x < Radius; x++)
+                {
+                    for (int y = 0; y < Radius; y++)
+                    {
+                        Vector2 pos = new Vector2(x - diam, y - diam);
+                        if (pos.LengthSquared() <= diamsq)
+                        {
+                            DrawPixel(spriteBatch, new Vector2(pos.X + Position.X, pos.Y + Position.Y), color);
+                        }
+                    }
+                }
             }
             else
             {
