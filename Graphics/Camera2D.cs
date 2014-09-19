@@ -51,6 +51,8 @@ namespace Ricoh2DFramework.Graphics
         public RasterizerState rasterizer = RasterizerState.CullNone;
         public Effect effect = null;
 
+        public Camera2D() { }
+
         public Camera2D(Resolution resIndependant)
         {
             ResIndependantRenderer = resIndependant;

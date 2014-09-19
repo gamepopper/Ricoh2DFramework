@@ -105,7 +105,7 @@ namespace Ricoh2DFramework.Graphics
             return sb.ToString().Split('\n');
         }
 
-        public void Draw(SpriteBatch spriteBatch)
+        public override void Draw(SpriteBatch spriteBatch)
         {
             String[] outputText;
             if (Multiline)
@@ -139,6 +139,8 @@ namespace Ricoh2DFramework.Graphics
             }
 
             dirtyTransform = false;
+
+            base.Draw(spriteBatch);
         }
     }
 }
