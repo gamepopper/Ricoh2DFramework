@@ -118,7 +118,7 @@ namespace Ricoh2DFramework.Collisions
             return false;
         }
 
-        public static bool PixelCollision(Matrix transformA, Rectangle boxA, Color[] dataA, Matrix transformB, Rectangle boxB, Color[] dataB)
+        public static bool PixelCollision(Matrix transformA, Rectangle renderBoxA, Color[] dataA, Matrix transformB, Rectangle renderBoxB, Color[] dataB)
         {
             //Original Code by Rob Carr
 
@@ -138,25 +138,25 @@ namespace Ricoh2DFramework.Collisions
             Vector2 yPosInB = Vector2.Transform(Vector2.Zero, transformAToB);
 
             // For each row of pixels in A
-            for (int yA = 0; yA < boxA.Height; yA++)
+            for (int yA = 0; yA < renderBoxA.Height; yA++)
             {
                 // Start at the beginning of the row
                 Vector2 posInB = yPosInB;
 
                 // For each pixel in this row
-                for (int xA = 0; xA < boxA.Width; xA++)
+                for (int xA = 0; xA < renderBoxA.Width; xA++)
                 {
                     // Round to the nearest pixel
                     int xB = (int)Math.Round(posInB.X);
                     int yB = (int)Math.Round(posInB.Y);
 
                     // If the pixel lies within the bounds of B
-                    if (0 <= xB && xB < boxB.Width &&
-                        0 <= yB && yB < boxB.Height)
+                    if (0 <= xB && xB < renderBoxB.Width &&
+                        0 <= yB && yB < renderBoxB.Height)
                     {
                         // Get the colors of the overlapping pixels
-                        Color colorA = dataA[xA + yA * boxA.Width];
-                        Color colorB = dataB[xB + yB * boxB.Width];
+                        Color colorA = dataA[xA + yA * renderBoxA.Width];
+                        Color colorB = dataB[xB + yB * renderBoxB.Width];
 
                         // If both pixels are not completely transparent,
                         if (colorA.A != 0 && colorB.A != 0)

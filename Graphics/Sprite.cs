@@ -32,6 +32,23 @@ namespace Ricoh2DFramework.Graphics
         public Texture2D texture;
         public AnimationManager animation;
 
+        public override Color[] ColourData
+        {
+            get
+            {
+                if (animation.currAnim == null || animation.currAnimName.Equals(""))
+                {
+                    return base.ColourData;
+                }
+
+                Color[] newColour = new Color[width * height];
+
+                texture.GetData(0, new Rectangle(animation.getCurrentColumn() * width, animation.getCurrentRow() * height, width, height), newColour, 0, newColour.Length);
+
+                return newColour;
+            }
+        }
+
         public Sprite(Texture2D texture, int width = 0, int height = 0) : base()
         {
             this.texture = texture;
@@ -47,8 +64,8 @@ namespace Ricoh2DFramework.Graphics
             collisionBox = new Rectangle((int)(position.X - origin.X), (int)(position.Y - origin.Y), width, height);
             collisionCircle = new Circle(position, width / 2);
             collisionPolygon = new Polygon(this.width, this.height);
-            ColourData = new Color[texture.Width * texture.Height];
-            texture.GetData(ColourData);
+            colourData = new Color[texture.Width * texture.Height];
+            texture.GetData(colourData);
         }
 
         protected override void DirtyTransform()

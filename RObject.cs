@@ -66,12 +66,13 @@ namespace Ricoh2DFramework
         protected Rectangle collisionBox;
         protected Circle collisionCircle;
         protected Polygon collisionPolygon;
+        protected Color[] colourData;
 
         public virtual Rectangle RenderBox
         {
             get
             {
-                return new Rectangle((int)(position.X - origin.X), (int)(position.Y - origin.Y), width, height);
+                return new Rectangle(0, 0, width, height);
             }
         }
         public virtual Rectangle Box
@@ -123,7 +124,10 @@ namespace Ricoh2DFramework
         {
             get { return collisionPolygon; }
         }
-        public Color[] ColourData;
+        public virtual Color[] ColourData
+        {
+            get { return colourData; }
+        }
 
         protected int collisionOffset = 0;
         public virtual int CollisionOffset
@@ -147,7 +151,7 @@ namespace Ricoh2DFramework
             collisionBox = new Rectangle((int)(position.X - origin.X), (int)(position.Y - origin.Y), width, height);
             collisionCircle = new Circle(position, width / 2);
             collisionPolygon = new Polygon(this.width, this.height);
-            ColourData = new Color[0];
+            colourData = new Color[0];
 
             Velocity = Vector2.Zero;
             Acceleration = Vector2.Zero;
