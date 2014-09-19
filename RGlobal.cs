@@ -23,7 +23,7 @@ namespace Ricoh2DFramework
         public static InputHelper Input = new InputHelper();
 
         public static List<Camera2D> Cameras = new List<Camera2D>();
-        public static Camera2D Camera = new Camera2D();
+        public static Camera2D camera = new Camera2D();
         public static Resolution Resolution = new Resolution();
 
         public static Color BackgroundColor = Color.Black;

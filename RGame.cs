@@ -52,7 +52,8 @@ namespace Ricoh2DFramework
             Content.RootDirectory = "Content";
 
             RGlobal.Resolution = new Resolution(this, ScreenWidth, ScreenHeight, ScreenWidth, ScreenHeight);
-            RGlobal.Camera = new Camera2D(RGlobal.Resolution);
+            RGlobal.camera = new Camera2D(RGlobal.Resolution);
+            RGlobal.Cameras.Add(RGlobal.camera);
 
             initialState.setGame(this);
             currentState = initialState;
@@ -64,7 +65,8 @@ namespace Ricoh2DFramework
             Content.RootDirectory = "Content";
 
             RGlobal.Resolution = new Resolution(this, VirtualWidth, VirtualHeight, ScreenWidth, ScreenHeight);
-            RGlobal.Camera = new Camera2D(RGlobal.Resolution);
+            RGlobal.camera = new Camera2D(RGlobal.Resolution);
+            RGlobal.Cameras.Add(RGlobal.camera);
 
             initialState.setGame(this);
             currentState = initialState;
@@ -78,10 +80,10 @@ namespace Ricoh2DFramework
 
             RGlobal.Resolution.Initialise();
 
-            RGlobal.Camera.Position = new Vector2(
+            RGlobal.camera.Position = new Vector2(
                 RGlobal.Resolution.VirtualWidth / 2,
                 RGlobal.Resolution.VirtualHeight / 2);
-            RGlobal.Camera.RecalculateTransformationMatrix();
+            RGlobal.camera.RecalculateTransformationMatrix();
 
             RGlobal.Input = new InputHelper();
             RGlobal.Input.Update();
