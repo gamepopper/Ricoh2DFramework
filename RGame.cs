@@ -43,17 +43,7 @@ namespace Ricoh2DFramework
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
-
-        public MusicManager Music;
-        public SoundManager Sound;
-
-        public InputHelper Input;
-
-        public Camera2D Camera;
-        public Resolution Resolution;
-
-        public Color BackgroundColor = Color.Black;
-
+        Texture2D background;
         GameState currentState;
 
         public RGame(GameState initialState, int ScreenWidth = 1280, int ScreenHeight= 720)
@@ -61,8 +51,8 @@ namespace Ricoh2DFramework
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
 
-            Resolution = new Resolution(this, ScreenWidth, ScreenHeight, ScreenWidth, ScreenHeight);
-            Camera = new Camera2D(Resolution);
+            RGlobal.Resolution = new Resolution(this, ScreenWidth, ScreenHeight, ScreenWidth, ScreenHeight);
+            RGlobal.Camera = new Camera2D(RGlobal.Resolution);
 
             initialState.setGame(this);
             currentState = initialState;
@@ -73,8 +63,8 @@ namespace Ricoh2DFramework
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
 
-            Resolution = new Resolution(this, VirtualWidth, VirtualHeight, ScreenWidth, ScreenHeight);
-            Camera = new Camera2D(Resolution);
+            RGlobal.Resolution = new Resolution(this, VirtualWidth, VirtualHeight, ScreenWidth, ScreenHeight);
+            RGlobal.Camera = new Camera2D(RGlobal.Resolution);
 
             initialState.setGame(this);
             currentState = initialState;
@@ -82,21 +72,24 @@ namespace Ricoh2DFramework
 
         protected override void Initialize()
         {
-            this.graphics.PreferredBackBufferWidth = Resolution.ScreenWidth;
-            this.graphics.PreferredBackBufferHeight = Resolution.ScreenHeight;
+            this.graphics.PreferredBackBufferWidth = RGlobal.Resolution.ScreenWidth;
+            this.graphics.PreferredBackBufferHeight = RGlobal.Resolution.ScreenHeight;
             this.graphics.ApplyChanges();
 
-            Resolution.Initialise();
+            RGlobal.Resolution.Initialise();
 
-            Camera.Position = new Vector2(
-                Resolution.VirtualWidth / 2,
-                Resolution.VirtualHeight / 2);
-            Camera.RecalculateTransformationMatrix();
+            RGlobal.Camera.Position = new Vector2(
+                RGlobal.Resolution.VirtualWidth / 2,
+                RGlobal.Resolution.VirtualHeight / 2);
+            RGlobal.Camera.RecalculateTransformationMatrix();
 
-            Input = new InputHelper();
-            Input.Update();
+            RGlobal.Input = new InputHelper();
+            RGlobal.Input.Update();
 
             currentState.Initialize();
+
+            background = new Texture2D(GraphicsDevice, 1, 1);
+            background.SetData<Color>(new Color[] { Color.White });
 
             base.Initialize();
         }
@@ -116,7 +109,7 @@ namespace Ricoh2DFramework
 
         protected override void Update(GameTime gameTime)
         {
-            Input.Update();
+            RGlobal.Input.Update();
             
             currentState.Update(gameTime);
 
@@ -125,8 +118,10 @@ namespace Ricoh2DFramework
 
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(BackgroundColor);
-            Resolution.BeginDraw();
+            RGlobal.Resolution.BeginDraw();
+            spriteBatch.Begin();
+            spriteBatch.Draw(background, new Rectangle(0, 0, RGlobal.Resolution.VirtualWidth, RGlobal.Resolution.VirtualHeight), RGlobal.BackgroundColor);
+            spriteBatch.End();
             currentState.Draw(spriteBatch);
 
             base.Draw(gameTime);

@@ -75,6 +75,7 @@
     <Compile Include="Graphics\Primitives.cs" />
     <Compile Include="RBasic.cs" />
     <Compile Include="Graphics\Resolution.cs" />
+    <Compile Include="RGlobal.cs" />
     <Compile Include="RObject.cs" />
     <Compile Include="Graphics\Sprite.cs" />
     <Compile Include="Graphics\Text.cs" />

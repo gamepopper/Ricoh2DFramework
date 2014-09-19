@@ -33,7 +33,7 @@ namespace Ricoh2DFramework.Graphics
         private Vector2 ratio;
         private Vector2 vMouse = Vector2.Zero;
 
-        public Color bgColor = Color.Black;
+        public Color BackgroundColor = Color.Black;
 
         public int VirtualWidth, VirtualHeight;
         public int ScreenWidth, ScreenHeight;
@@ -41,6 +41,8 @@ namespace Ricoh2DFramework.Graphics
         private bool dirtyMatrix;
         public bool RenderingToScreenIsFinished;
         private static Matrix scaleMatrix;
+
+        public Resolution() { }
 
         public Resolution(Game _game, int virtualWidth = 1366, int virtualHeight = 768, int screenWidth = 1920, int screenHeight = 1080)
         {
@@ -85,7 +87,7 @@ namespace Ricoh2DFramework.Graphics
         public void BeginDraw()
         {
             SetupFullViewport();
-            game.GraphicsDevice.Clear(bgColor);
+            game.GraphicsDevice.Clear(BackgroundColor);
             SetupVirtualScreenViewport();
         }
 
