@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Media;
 
 /*The MIT License (MIT)
 
@@ -30,5 +30,41 @@ namespace Ricoh2DFramework.Audio
 {
     public class MusicManager
     {
+        private Dictionary<string, Song> SongList;
+
+        public MusicManager()
+        {
+            SongList = new Dictionary<string, Song>();
+        }
+
+        public void Add(string key, Song value)
+        {
+            if (!SongList.ContainsKey(key))
+            {
+                SongList.Add(key, value);
+            }
+        }
+
+        public Song Get(string key)
+        {
+            Song song;
+            SongList.TryGetValue(key, out song);
+
+            return song;
+        }
+
+        public void Play(string key, bool looped = false)
+        {
+            Song song = Get(key);
+
+            if (song != null)
+            {
+                if (MediaPlayer.Queue.ActiveSong != song)
+                {
+                    MediaPlayer.IsRepeating = looped;
+                    MediaPlayer.Play(song);
+                }
+            }
+        }
     }
 }

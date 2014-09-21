@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 
 /*The MIT License (MIT)
 
@@ -30,5 +30,104 @@ namespace Ricoh2DFramework.Audio
 {
     public class SoundManager
     {
+        private Dictionary<string, SoundEffect> SoundEffectList;
+        private Dictionary<string, SoundEffectInstance> SoundEffectInstanceList;
+
+        public SoundManager()
+        {
+            SoundEffectList = new Dictionary<string, SoundEffect>();
+            SoundEffectInstanceList = new Dictionary<string, SoundEffectInstance>();
+        }
+
+        public void Add(string key, SoundEffect value)
+        {
+            if (!SoundEffectList.ContainsKey(key))
+                SoundEffectList.Add(key, value);
+        }
+
+        public void Remove(string key, bool instanceOnly=false)
+        {
+            if (!instanceOnly)
+            {
+                SoundEffect effect = Get(key);
+                if (effect != null)
+                    effect.Dispose();
+                SoundEffectList.Remove(key);
+            }
+            Stop(key);
+        }
+
+        public void Clear()
+        {
+            foreach (string key in SoundEffectList.Keys)
+            {
+                Remove(key);
+            }
+        }
+
+        private SoundEffect Get(string key)
+        {
+            SoundEffect effect;
+            SoundEffectList.TryGetValue(key, out effect);
+            return effect;
+        }
+
+        public SoundEffectInstance GetInstance(string key)
+        {
+            SoundEffectInstance effect;
+            SoundEffectInstanceList.TryGetValue(key, out effect);
+            return effect;
+        }
+
+        public void Play(string key, float volume=1, float pitch = 0, float pan = 0, bool looped=false)
+        {
+            SoundEffect effect = Get(key);
+            if (effect != null)
+            {
+                if (looped == false)
+                {
+                    effect.Play(volume, pitch, pan);
+                }
+                else
+                {
+                    SoundEffectInstance effectInstance;
+
+                    if (SoundEffectInstanceList.ContainsKey(key))
+                    {
+                        effectInstance = GetInstance(key);
+                        if (effectInstance.State != SoundState.Playing)
+                        {
+                            effectInstance.Volume = volume;
+                            effectInstance.IsLooped = looped;
+                            effectInstance.Pitch = pitch;
+                            effectInstance.Pan = pan;
+                        }
+                    }
+                    else
+                    {
+                        effectInstance = effect.CreateInstance();
+                        effectInstance.Volume = volume;
+                        effectInstance.IsLooped = looped;
+                        effectInstance.Pitch = pitch;
+                        effectInstance.Pan = pan;
+                        SoundEffectInstanceList.Add(key, effectInstance);
+                    }
+
+                    effectInstance.Play();
+                }
+            }
+        }
+
+        public void Stop(string key)
+        {
+            SoundEffectInstance effect = GetInstance(key);
+
+            if (effect != null)
+            {
+                effect.Stop();
+                effect.Dispose();
+                SoundEffectInstanceList.Remove(key);
+            }
+        }
     }
 }
