@@ -111,8 +111,7 @@ namespace Ricoh2DFramework
                                               Vector2.Max(leftBottom, rightBottom));
 
                     // Return as a rectangle
-                    return new Rectangle((int)Math.Ceiling(min.X), (int)Math.Ceiling(min.Y),
-                                         (int)Math.Ceiling(max.X - min.X), (int)Math.Ceiling(max.Y - min.Y));
+                    return new Rectangle((int)min.X, (int)min.Y, (int)(max.X - min.X), (int)(max.Y - min.Y));
                 }
             }
         }
