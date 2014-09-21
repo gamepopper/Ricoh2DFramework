@@ -179,6 +179,11 @@ namespace Ricoh2DFramework.Input
             get { return currentGamePadState[index].Triggers.Right; }
         }
 
+        public Vector2 Vibration
+        {
+            set { GamePad.SetVibration(index, value.X, value.Y); }
+        }
+
         public bool isMouseButtonDown(MouseButtons button)
         {
             switch (button)
