@@ -40,6 +40,7 @@ namespace Ricoh2DFramework.Graphics
         {
             this.rows = rows;
             this.columns = columns;
+            currAnim = new Animation(new int[]{0});
         }
 
         public void Update(GameTime gameTime)
@@ -80,33 +81,36 @@ namespace Ricoh2DFramework.Graphics
                 {
                     currAnimName = name;
                     currAnim = anim;
+                    currAnim.ResetAnimation();
                 }
             }
         }
 
         public void Pause()
         {
-            currAnim.State = AnimationStates.PAUSE;
+            if (currAnim != null) currAnim.State = AnimationStates.PAUSE;
         }
 
         public void Forward()
         {
-            currAnim.State = AnimationStates.FORWARD;
+            if (currAnim != null) currAnim.State = AnimationStates.FORWARD;
         }
 
         public void Reverse()
         {
-            currAnim.State = AnimationStates.BACKWARD;
+            if (currAnim != null) currAnim.State = AnimationStates.BACKWARD;
         }
 
         public int getCurrentRow()
         {
-            return (int)(currAnim.getCurrentFrame() / columns);
+            if (currAnim != null) return (int)(currAnim.getCurrentFrame() / columns);
+            else return 0;
         }
 
         public int getCurrentColumn()
         {
-            return (currAnim.getCurrentFrame() % columns);
+            if (currAnim != null) return (currAnim.getCurrentFrame() % columns);
+            else return 0;
         }
 
         public int Size()
