@@ -30,20 +30,20 @@ namespace Ricoh2DFramework.Graphics
     public class Sprite : RObject
     {
         public Texture2D texture;
-        public AnimationManager animation;
+        public AnimationManager Animation;
 
         public override Color[] ColourData
         {
             get
             {
-                if (animation.currAnim == null || animation.currAnimName.Equals(""))
+                if (Animation.currAnim == null || Animation.currAnimName.Equals(""))
                 {
                     return base.ColourData;
                 }
 
                 Color[] newColour = new Color[width * height];
 
-                texture.GetData(0, new Rectangle(animation.getCurrentColumn() * width, animation.getCurrentRow() * height, width, height), newColour, 0, newColour.Length);
+                texture.GetData(0, new Rectangle(Animation.getCurrentColumn() * width, Animation.getCurrentRow() * height, width, height), newColour, 0, newColour.Length);
 
                 return newColour;
             }
@@ -59,7 +59,7 @@ namespace Ricoh2DFramework.Graphics
 
             origin = new Vector2(this.width / 2, this.height / 2);
 
-            animation = new AnimationManager(texture.Height/this.height, texture.Width/this.width);
+            Animation = new AnimationManager(texture.Height/this.height, texture.Width/this.width);
 
             collisionBox = new Rectangle((int)(position.X - origin.X), (int)(position.Y - origin.Y), width, height);
             collisionCircle = new Circle(position, width / 2);
@@ -97,24 +97,17 @@ namespace Ricoh2DFramework.Graphics
 
         public override void Update(GameTime gameTime)
         {
-            animation.Update(gameTime);
+            Animation.Update(gameTime);
 
             base.Update(gameTime);
         }
 
         public override void Draw(SpriteBatch spriteBatch)
         {
-            if (animation.currAnim == null || animation.currAnimName.Equals(""))
-            {
-                spriteBatch.Draw(texture, position, new Rectangle(0, 0, width, height), color * opacity, rotation, origin, scale, spriteEffects, depth);
-            }
-            else
-            {
-                int renderX = animation.getCurrentColumn() * width;
-                int renderY = animation.getCurrentRow() * height;
+            int renderX = Animation.getCurrentColumn() * width;
+            int renderY = Animation.getCurrentRow() * height;
 
-                spriteBatch.Draw(texture, position, new Rectangle(renderX, renderY, width, height), color * opacity, rotation, origin, scale, spriteEffects, depth);
-            }
+            spriteBatch.Draw(texture, position, new Rectangle(renderX, renderY, width, height), color * opacity, rotation, origin, scale, spriteEffects, depth);
 
             base.Draw(spriteBatch);
         }
