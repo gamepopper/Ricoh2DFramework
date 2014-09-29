@@ -31,17 +31,27 @@ namespace Ricoh2DFramework.Audio
     public class MusicManager
     {
         private Dictionary<string, Song> SongList;
+        private Dictionary<string, SongCollection> SongCollectionList;
 
         public MusicManager()
         {
             SongList = new Dictionary<string, Song>();
+            SongCollectionList = new Dictionary<string, SongCollection>();
         }
 
         public void Add(string key, Song value)
         {
-            if (!SongList.ContainsKey(key))
+            if (!SongList.ContainsKey(key) && !SongCollectionList.ContainsKey(key))
             {
                 SongList.Add(key, value);
+            }
+        }
+
+        public void Add(string key, SongCollection value)
+        {
+            if (!SongList.ContainsKey(key) && !SongCollectionList.ContainsKey(key))
+            {
+                SongCollectionList.Add(key, value);
             }
         }
 
@@ -49,6 +59,14 @@ namespace Ricoh2DFramework.Audio
         {
             Song song;
             SongList.TryGetValue(key, out song);
+
+            return song;
+        }
+
+        public SongCollection GetCollection(string key)
+        {
+            SongCollection song;
+            SongCollectionList.TryGetValue(key, out song);
 
             return song;
         }
@@ -63,6 +81,16 @@ namespace Ricoh2DFramework.Audio
                 {
                     MediaPlayer.IsRepeating = looped;
                     MediaPlayer.Play(song);
+                }
+            }
+
+            SongCollection songCollection = GetCollection(key);
+            if (songCollection != null)
+            {
+                if (MediaPlayer.Queue.ActiveSong != songCollection[0])
+                {
+                    MediaPlayer.IsRepeating = looped;
+                    MediaPlayer.Play(songCollection);
                 }
             }
         }
