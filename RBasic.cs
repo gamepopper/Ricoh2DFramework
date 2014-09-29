@@ -138,17 +138,8 @@ namespace Ricoh2DFramework
             dirtyTransform = false;
         }
 
-        public virtual void Update(GameTime gameTime)
-        {
-            if (dirtyTransform)
-            {
-                DirtyTransform();
-            }
-        }
+        public virtual void Update(GameTime gameTime) { }
 
-        public virtual void Draw(SpriteBatch spriteBatch)
-        {
-
-        }
+        public virtual void Draw(SpriteBatch spriteBatch) { }
     }
 }

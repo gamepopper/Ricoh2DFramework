@@ -70,34 +70,38 @@ namespace Ricoh2DFramework.Graphics
 
         protected override void DirtyTransform()
         {
-            Transform = Matrix.Identity;
-            Transform *= Matrix.CreateTranslation(new Vector3(-origin, 0));
-            Transform *= Matrix.CreateScale(new Vector3(scale, 1));
-            Transform *= Matrix.CreateRotationZ(rotation);
-            Transform *= Matrix.CreateTranslation(new Vector3(position, 0));
+            if (dirtyTransform)
+            {
+                Transform = Matrix.Identity;
+                Transform *= Matrix.CreateTranslation(new Vector3(-origin, 0));
+                Transform *= Matrix.CreateScale(new Vector3(scale, 1));
+                Transform *= Matrix.CreateRotationZ(rotation);
+                Transform *= Matrix.CreateTranslation(new Vector3(position, 0));
 
-            Vector2 centrePos = PositionCentre;
+                Vector2 centrePos = PositionCentre;
 
-            collisionBox.X = (int)(position.X - origin.X);
-            collisionBox.Y = (int)(position.Y - origin.Y);
-            collisionBox.Width = width;
-            collisionBox.Height = height;
-            collisionBox.Inflate(collisionOffset, collisionOffset);
+                collisionBox.X = (int)(position.X - origin.X);
+                collisionBox.Y = (int)(position.Y - origin.Y);
+                collisionBox.Width = width;
+                collisionBox.Height = height;
+                collisionBox.Inflate(collisionOffset, collisionOffset);
 
-            collisionCircle.Position = centrePos;
-            collisionCircle.Radius = (width / 2) + collisionOffset;
-            collisionCircle.Radius *= (scale.X + scale.Y) / 2;
+                collisionCircle.Position = centrePos;
+                collisionCircle.Radius = (width / 2) + collisionOffset;
+                collisionCircle.Radius *= (scale.X + scale.Y) / 2;
 
-            collisionPolygon.Position = centrePos;
-            collisionPolygon.Rotation = rotation;
-            collisionPolygon.Scale = scale;
+                collisionPolygon.Position = centrePos;
+                collisionPolygon.Rotation = rotation;
+                collisionPolygon.Scale = scale;
 
-            base.DirtyTransform();
+                base.DirtyTransform();
+            }
         }
 
         public override void Update(GameTime gameTime)
         {
             Animation.Update(gameTime);
+            DirtyTransform();
 
             base.Update(gameTime);
         }
