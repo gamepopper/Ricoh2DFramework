@@ -44,15 +44,26 @@ namespace Ricoh2DFramework.Graphics
 
         public Resolution() { }
 
-        public Resolution(Game _game, int virtualWidth = 1366, int virtualHeight = 768, int screenWidth = 1920, int screenHeight = 1080)
+        public Resolution(Game game, int virtualWidth = 1366, int virtualHeight = 768, int screenWidth = 1920, int screenHeight = 1080)
         {
-            game = _game;
+            this.game = game;
 
             VirtualWidth = virtualWidth;
             VirtualHeight = virtualHeight;
 
             ScreenWidth = screenWidth;
             ScreenHeight = screenHeight;
+        }
+
+        public Resolution(Game game, int virtualWidth = 1366, int virtualHeight = 768)
+        {
+            this.game = game;
+
+            VirtualWidth = virtualWidth;
+            VirtualHeight = virtualHeight;
+
+            ScreenWidth = virtualWidth;
+            ScreenHeight = virtualHeight;
         }
 
         public void Initialise()
