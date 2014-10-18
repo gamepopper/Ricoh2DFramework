@@ -26,8 +26,7 @@ $RECYCLE.BIN/
 .LSOverride
 
 # Icon must ends with two \r.
-Icon
-
+Icon
 # Thumbnails
 ._*
 
@@ -42,3 +41,11 @@ Icon
 
 /bin/*
 /obj/*
+/Ricoh2DMonoTestDX/*
+/Ricoh2DMonoTestGL/*
+/Ricoh2DTestContent/*
+
+*.xnb
+*.wav
+*.png
+*.jpg
