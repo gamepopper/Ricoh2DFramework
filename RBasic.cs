@@ -120,7 +120,7 @@ namespace Ricoh2DFramework
         {
             position = Vector2.Zero;
             rotation = 0;
-            scale = new Vector2(1, 1);
+            scale = Vector2.One;
             spriteEffects = SpriteEffects.None;
             color = Color.White;
             opacity = 1;
@@ -131,11 +131,6 @@ namespace Ricoh2DFramework
             origin = Vector2.Zero;
 
             dirtyTransform = true;
-        }
-
-        protected virtual void DirtyTransform()
-        {
-            dirtyTransform = false;
         }
 
         public virtual void Update(GameTime gameTime) { }

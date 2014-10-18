@@ -68,8 +68,10 @@ namespace Ricoh2DFramework.Graphics
             texture.GetData(colourData);
         }
 
-        protected override void DirtyTransform()
+        public override void Update(GameTime gameTime)
         {
+            Animation.Update(gameTime);
+
             if (dirtyTransform)
             {
                 Transform = Matrix.Identity;
@@ -94,14 +96,8 @@ namespace Ricoh2DFramework.Graphics
                 collisionPolygon.Rotation = rotation;
                 collisionPolygon.Scale = scale;
 
-                base.DirtyTransform();
+                dirtyTransform = false;
             }
-        }
-
-        public override void Update(GameTime gameTime)
-        {
-            Animation.Update(gameTime);
-            DirtyTransform();
 
             base.Update(gameTime);
         }
