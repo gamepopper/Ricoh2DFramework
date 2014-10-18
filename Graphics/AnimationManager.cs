@@ -79,9 +79,9 @@ namespace Ricoh2DFramework.Graphics
 
                 if (anim != null)
                 {
+                    anim.ResetAnimation();
                     currAnimName = name;
                     currAnim = anim;
-                    currAnim.ResetAnimation();
                 }
             }
         }
