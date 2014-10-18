@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Input.Touch;
 
 /*The MIT License (MIT)
 
@@ -40,6 +41,8 @@ namespace Ricoh2DFramework.Input
 
         MouseState currentMouseState;
         MouseState previousMouseState;
+
+        TouchCollection touchCollection;
 
         PlayerIndex index = PlayerIndex.One;
 
@@ -179,11 +182,6 @@ namespace Ricoh2DFramework.Input
             get { return currentGamePadState[index].Triggers.Right; }
         }
 
-        public Vector2 Vibration
-        {
-            set { GamePad.SetVibration(index, value.X, value.Y); }
-        }
-
         public bool isMouseButtonDown(MouseButtons button)
         {
             switch (button)
@@ -284,6 +282,23 @@ namespace Ricoh2DFramework.Input
         public int MouseScrollWheelVelocity
         {
             get { return currentMouseState.ScrollWheelValue - previousMouseState.ScrollWheelValue; }
+        }
+
+        public TouchCollection Touches
+        {
+            get
+            {
+                touchCollection = TouchPanel.GetState();
+                return touchCollection;
+            }
+        }
+
+        public TouchPanelCapabilities Capabilities
+        {
+            get
+            {
+                return TouchPanel.GetCapabilities();
+            }
         }
     }
 }
