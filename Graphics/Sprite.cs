@@ -29,7 +29,7 @@ namespace Ricoh2DFramework.Graphics
 {
     public class Sprite : RObject
     {
-        public Texture2D texture;
+        public Texture2D Texture;
         public AnimationManager Animation;
 
         public override Color[] ColourData
@@ -43,7 +43,7 @@ namespace Ricoh2DFramework.Graphics
 
                 Color[] newColour = new Color[width * height];
 
-                texture.GetData(0, new Rectangle(Animation.getCurrentColumn() * width, Animation.getCurrentRow() * height, width, height), newColour, 0, newColour.Length);
+                Texture.GetData(0, new Rectangle(Animation.getCurrentColumn() * width, Animation.getCurrentRow() * height, width, height), newColour, 0, newColour.Length);
 
                 return newColour;
             }
@@ -51,7 +51,7 @@ namespace Ricoh2DFramework.Graphics
 
         public Sprite(Texture2D texture, int width = 0, int height = 0) : base()
         {
-            this.texture = texture;
+            this.Texture = texture;
             this.width = width;
             this.height = height;
             if (this.width == 0){this.width = texture.Width;}
@@ -111,7 +111,7 @@ namespace Ricoh2DFramework.Graphics
             int renderX = Animation.getCurrentColumn() * width;
             int renderY = Animation.getCurrentRow() * height;
 
-            spriteBatch.Draw(texture, position, new Rectangle(renderX, renderY, width, height), color * opacity, rotation, origin, scale, spriteEffects, depth);
+            spriteBatch.Draw(Texture, position, new Rectangle(renderX, renderY, width, height), color * opacity, rotation, origin, scale, spriteEffects, depth);
 
             base.Draw(spriteBatch);
         }

@@ -62,6 +62,7 @@ namespace Ricoh2DFramework
 
         public Vector2 Velocity;
         public Vector2 Acceleration;
+        public Vector2 Drag;
 
         protected Rectangle collisionBox;
         protected Circle collisionCircle;
@@ -154,6 +155,7 @@ namespace Ricoh2DFramework
 
             Velocity = Vector2.Zero;
             Acceleration = Vector2.Zero;
+            Drag = Vector2.One;
         }
 
         public override void Update(GameTime gameTime)
@@ -161,12 +163,14 @@ namespace Ricoh2DFramework
             if (!immoveable)
             {
                 Velocity += Acceleration * (float)gameTime.ElapsedGameTime.TotalSeconds;
+                Velocity /= Drag;
                 Position += Velocity * (float)gameTime.ElapsedGameTime.TotalSeconds;
             }
             else
             {
                 Velocity = Vector2.Zero;
                 Acceleration = Vector2.Zero;
+                Drag = Vector2.One;
             }
 
             base.Update(gameTime);
