@@ -44,12 +44,14 @@ namespace Ricoh2DFramework
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         Texture2D background;
-        GameState currentState;
+        IRState currentState;
 
-        public RGame(GameState initialState, int ScreenWidth = 1280, int ScreenHeight= 720)
+        public RGame(IRState initialState, int ScreenWidth = 1280, int ScreenHeight= 720)
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
+
+            RGlobal.Game = this;
 
             RGlobal.Resolution = new Resolution(this, ScreenWidth, ScreenHeight);
             RGlobal.MainCamera = new Camera2D(RGlobal.Resolution);
@@ -61,11 +63,10 @@ namespace Ricoh2DFramework
 
             RGlobal.Input = new InputHelper();
 
-            initialState.setGame(this);
             currentState = initialState;
         }
 
-        public RGame(GameState initialState, int ScreenWidth, int ScreenHeight, int VirtualWidth, int VirtualHeight)
+        public RGame(IRState initialState, int ScreenWidth, int ScreenHeight, int VirtualWidth, int VirtualHeight)
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
@@ -74,7 +75,6 @@ namespace Ricoh2DFramework
             RGlobal.MainCamera = new Camera2D(RGlobal.Resolution);
             RGlobal.Cameras.Add(RGlobal.MainCamera);
 
-            initialState.setGame(this);
             currentState = initialState;
         }
 
@@ -135,7 +135,7 @@ namespace Ricoh2DFramework
             base.Draw(gameTime);
         }
 
-        public void SwitchState(GameState newState)
+        public void SwitchState(IRState newState)
         {
             currentState.UnloadContent();
             currentState = newState;
