@@ -17,14 +17,14 @@ namespace Ricoh2DFramework
 {
     public class RGlobal
     {
-        public static MusicManager Music = new MusicManager();
-        public static SoundManager Sound = new SoundManager();
+        public static Resolution Resolution;
+        public static List<Camera2D> Cameras;
+        public static Camera2D MainCamera;
 
-        public static InputHelper Input = new InputHelper();
+        public static MusicManager Music;
+        public static SoundManager Sound;
 
-        public static List<Camera2D> Cameras = new List<Camera2D>();
-        public static Camera2D camera = new Camera2D();
-        public static Resolution Resolution = new Resolution();
+        public static InputHelper Input;
 
         public static Color BackgroundColor = Color.Black;
     }

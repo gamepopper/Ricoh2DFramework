@@ -39,7 +39,7 @@ THE SOFTWARE.
 
 namespace Ricoh2DFramework
 {
-    public class RGame : Microsoft.Xna.Framework.Game
+    public class RGame : Game
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
@@ -51,9 +51,15 @@ namespace Ricoh2DFramework
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
 
-            RGlobal.Resolution = new Resolution(this, ScreenWidth, ScreenHeight, ScreenWidth, ScreenHeight);
-            RGlobal.camera = new Camera2D(RGlobal.Resolution);
-            RGlobal.Cameras.Add(RGlobal.camera);
+            RGlobal.Resolution = new Resolution(this, ScreenWidth, ScreenHeight);
+            RGlobal.MainCamera = new Camera2D(RGlobal.Resolution);
+            RGlobal.Cameras = new List<Camera2D>();
+            RGlobal.Cameras.Add(RGlobal.MainCamera);
+
+            RGlobal.Music = new MusicManager();
+            RGlobal.Sound = new SoundManager();
+
+            RGlobal.Input = new InputHelper();
 
             initialState.setGame(this);
             currentState = initialState;
@@ -65,8 +71,8 @@ namespace Ricoh2DFramework
             Content.RootDirectory = "Content";
 
             RGlobal.Resolution = new Resolution(this, VirtualWidth, VirtualHeight, ScreenWidth, ScreenHeight);
-            RGlobal.camera = new Camera2D(RGlobal.Resolution);
-            RGlobal.Cameras.Add(RGlobal.camera);
+            RGlobal.MainCamera = new Camera2D(RGlobal.Resolution);
+            RGlobal.Cameras.Add(RGlobal.MainCamera);
 
             initialState.setGame(this);
             currentState = initialState;
@@ -80,10 +86,10 @@ namespace Ricoh2DFramework
 
             RGlobal.Resolution.Initialise();
 
-            RGlobal.camera.Position = new Vector2(
+            RGlobal.MainCamera.Position = new Vector2(
                 RGlobal.Resolution.VirtualWidth / 2,
                 RGlobal.Resolution.VirtualHeight / 2);
-            RGlobal.camera.RecalculateTransformationMatrix();
+            RGlobal.MainCamera.RecalculateTransformationMatrix();
 
             RGlobal.Input = new InputHelper();
             RGlobal.Input.Update();
