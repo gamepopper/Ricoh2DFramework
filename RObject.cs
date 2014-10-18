@@ -62,7 +62,20 @@ namespace Ricoh2DFramework
 
         public Vector2 Velocity;
         public Vector2 Acceleration;
-        public Vector2 Drag;
+        private Vector2 drag;
+        public Vector2 Drag
+        {
+            get
+            {
+                return drag;
+            }
+            set
+            {
+                drag = value;
+                if (drag.X < 1) drag.X = 1;
+                if (drag.Y < 1) drag.Y = 1;
+            }
+        }
 
         protected Rectangle collisionBox;
         protected Circle collisionCircle;
