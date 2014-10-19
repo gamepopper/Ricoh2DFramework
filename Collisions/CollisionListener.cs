@@ -78,7 +78,7 @@ namespace Ricoh2DFramework.Collisions
             return false;
         }
 
-        private static bool LineIntersect(Line lineA, Line lineB)
+        public static bool LineIntersect(Line lineA, Line lineB)
         {
             float denom = ((lineA.StartPoint.X - lineA.EndPoint.X) * (lineB.StartPoint.Y - lineB.EndPoint.Y))
                 - ((lineA.StartPoint.Y - lineA.EndPoint.Y)*(lineB.StartPoint.X - lineB.EndPoint.X));
@@ -96,7 +96,27 @@ namespace Ricoh2DFramework.Collisions
             return true;
         }
 
-        private static bool PointOverlap(Vector2 Point, List<Line> Polygon)
+        public static bool LineIntersect(Line lineA, Line lineB, out Vector2 position)
+        {
+            position = Vector2.Zero;
+            float denom = ((lineA.StartPoint.X - lineA.EndPoint.X) * (lineB.StartPoint.Y - lineB.EndPoint.Y))
+                - ((lineA.StartPoint.Y - lineA.EndPoint.Y) * (lineB.StartPoint.X - lineB.EndPoint.X));
+
+            if (denom == 0) return false;
+
+            float ua = (((lineB.EndPoint.X - lineB.StartPoint.X) * (lineA.StartPoint.Y - lineB.StartPoint.Y))
+                - ((lineB.EndPoint.Y - lineB.StartPoint.Y) * (lineA.StartPoint.X - lineB.StartPoint.X))) / denom;
+
+            float ub = (((lineA.EndPoint.X - lineA.StartPoint.X) * (lineA.StartPoint.Y - lineB.StartPoint.Y))
+                - ((lineA.EndPoint.Y - lineA.StartPoint.Y) * (lineA.StartPoint.X - lineB.StartPoint.X))) / denom;
+
+            if (ua < 0 || ua > 1 || ub < 0 || ub > 1) return false;
+
+            position = lineA.StartPoint + ((lineA.EndPoint - lineA.StartPoint) * ua);
+            return true;
+        }
+
+        public static bool PointOverlap(Vector2 Point, List<Line> Polygon)
         {
             int PointIntersectCount = 0;
 
@@ -137,7 +157,7 @@ namespace Ricoh2DFramework.Collisions
             // This variable will be reused to keep track of the start of each row
             Vector2 yPosInB = Vector2.Transform(Vector2.Zero, transformAToB);
 
-            // For each row of pixels in A
+            // For each column of pixels in A
             for (int yA = 0; yA < renderBoxA.Height; yA++)
             {
                 // Start at the beginning of the row
@@ -170,7 +190,7 @@ namespace Ricoh2DFramework.Collisions
                     posInB += stepX;
                 }
 
-                // Move to the next row
+                // Move to the next column
                 yPosInB += stepY;
             }
             // No intersection found
