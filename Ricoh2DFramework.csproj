@@ -64,7 +64,7 @@
     <Compile Include="Collisions\CollisionStates.cs" />
     <Compile Include="Collisions\Line.cs" />
     <Compile Include="Collisions\Polygon.cs" />
-    <Compile Include="GameState.cs" />
+    <Compile Include="IRState.cs" />
     <Compile Include="Graphics\Animation.cs" />
     <Compile Include="Graphics\AnimationManager.cs" />
     <Compile Include="Graphics\AnimationStates.cs" />
