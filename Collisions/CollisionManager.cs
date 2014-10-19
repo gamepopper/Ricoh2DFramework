@@ -71,6 +71,45 @@ namespace Ricoh2DFramework.Collisions
             return false;
         }
 
+        public static bool Collide(RObject object1, RObject object2, CollisionType Type = CollisionType.Box, ResponseFunction f = null)
+        {
+            switch (Type)
+            {
+                case CollisionType.Circle:
+                    if (CollisionListener.CircleCollision(object1.Circle, object2.Circle))
+                    {
+                        return callResponse(f);
+                    }
+                    break;
+                case CollisionType.Polygon:
+                    if (CollisionListener.BoxCollision(object1.Box, object2.Box))
+                    {
+                        if (CollisionListener.PolygonCollision(object1.Polygon, object2.Polygon))
+                        {
+                            return callResponse(f);
+                        }
+                    }
+                    break;
+                case CollisionType.Pixel:
+                    if (CollisionListener.BoxCollision(object1.Box, object2.Box))
+                    {
+                        if (CollisionListener.PixelCollision(object1.Transform, object1.RenderBox, object1.ColourData, object2.Transform, object2.RenderBox, object2.ColourData))
+                        {
+                            return callResponse(f);
+                        }
+                    }
+                    break;
+                default:
+                    if (CollisionListener.BoxCollision(object1.Box, object2.Box))
+                    {
+                        return callResponse(f);
+                    }
+                    break;
+            }
+
+            return false;
+        }
+
         private static bool callResponse(ResponseFunction f)
         {
             if (f != null)
