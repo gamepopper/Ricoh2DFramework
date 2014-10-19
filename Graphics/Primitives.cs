@@ -131,14 +131,55 @@ namespace Ricoh2DFramework.Graphics
 
             spriteBatch.Draw(debugTexture, new Rectangle((int)start.X,(int)start.Y,(int)edge.Length(), thickness), null, color, angle, new Vector2(0, 0), SpriteEffects.None, 0);
         }
-        public static void DrawPolygon(SpriteBatch spriteBatch, Polygon Polygon, Color color, int thickness = 1)
+        public static void DrawPolygon(SpriteBatch spriteBatch, Polygon Polygon, Color color, bool filled=false, int thickness = 1)
         {
             List<Line> lines = Polygon.getTransformedLines();
+            Vector2 min = lines[0].StartPoint;
+            Vector2 max = lines[0].EndPoint;
 
             foreach (Line l in lines)
             {
                 DrawLine(spriteBatch, l, color, thickness);
+
+                min = Vector2.Min(min, l.StartPoint);
+                min = Vector2.Min(min, l.EndPoint);
+                max = Vector2.Max(max, l.StartPoint);
+                max = Vector2.Max(max, l.EndPoint);
             }
+
+            if (filled)
+            {
+                int minX = (int)min.X;
+                for (int y = (int)min.Y; y < max.Y; y++)
+                {
+                    List<Vector2> lineNodes = new List<Vector2>();
+                    Line line = new Line(new Vector2(minX, y), new Vector2(minX + 10000, y));
+
+                    foreach (Line l in lines)
+                    {
+                        Vector2 node;
+                        if (CollisionListener.LineIntersect(line, l, out node) ) 
+                            lineNodes.Add(node);
+                    }
+                    lineNodes.Sort(new CompareByY());
+
+                    for (int n = 0; n < lineNodes.Count; n += 2)
+                    {
+                        if (n+1 < lineNodes.Count)
+                            DrawLine(spriteBatch, new Line(lineNodes[n], lineNodes[n + 1]), color, 1);
+                    }
+                }
+            }
+        }
+    }
+
+    class CompareByY : IComparer<Vector2>
+    {
+        public int Compare(Vector2 x, Vector2 y)
+        {
+            if (x.X < y.X) return -1;
+            if (x.X > y.X) return 1;
+            else return 0;
         }
     }
 }
