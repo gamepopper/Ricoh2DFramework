@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 /*The MIT License (MIT)
@@ -42,28 +43,59 @@ namespace Ricoh2DFramework.Graphics
         public bool RenderingToScreenIsFinished;
         private static Matrix scaleMatrix;
 
-        public Resolution() { }
-
-        public Resolution(Game game, int virtualWidth = 1366, int virtualHeight = 768, int screenWidth = 1920, int screenHeight = 1080)
+        public Resolution(Game _game)
         {
-            this.game = game;
+            game = _game;
+
+            //Resolution we are emulating
+            VirtualWidth = 1366;
+            VirtualHeight = 768;
+
+            //Actual Screen Resolution
+            ScreenWidth = 1024;
+            ScreenHeight = 768;
+
+            //Clear Screen Colour
+            BackgroundColor = Color.Black;
+        }
+
+        public Resolution(Game _game, int virtualWidth, int virtualHeight)
+        {
+            game = _game;
+            
+            VirtualWidth = virtualWidth;
+            VirtualHeight = virtualHeight;
+
+            ScreenWidth = virtualWidth;
+            ScreenHeight = virtualHeight;
+
+            BackgroundColor = Color.Black;
+        }
+
+        public Resolution(Game _game, int virtualWidth, int virtualHeight, int screenWidth, int screenHeight)
+        {
+            game = _game;
+            
+            VirtualWidth = virtualWidth;
+            VirtualHeight = virtualHeight;
+
+            ScreenWidth = screenWidth;
+            ScreenHeight = screenHeight;
+
+            BackgroundColor = Color.Black;
+        }
+
+        public Resolution(Game _game, int virtualWidth, int virtualHeight, int screenWidth, int screenHeight, Color color)
+        {
+            game = _game;
 
             VirtualWidth = virtualWidth;
             VirtualHeight = virtualHeight;
 
             ScreenWidth = screenWidth;
             ScreenHeight = screenHeight;
-        }
 
-        public Resolution(Game game, int virtualWidth = 1366, int virtualHeight = 768)
-        {
-            this.game = game;
-
-            VirtualWidth = virtualWidth;
-            VirtualHeight = virtualHeight;
-
-            ScreenWidth = virtualWidth;
-            ScreenHeight = virtualHeight;
+            BackgroundColor = color;
         }
 
         public void Initialise()
@@ -106,7 +138,7 @@ namespace Ricoh2DFramework.Graphics
         {
             if (dirtyMatrix)
                 RecreateScaleMatrix();
-
+                
             return scaleMatrix;
         }
 
@@ -115,8 +147,8 @@ namespace Ricoh2DFramework.Graphics
             //Scale's the graphical components to fit the virtual resolution
 
             Matrix.CreateScale(
-                (float)ScreenWidth / VirtualWidth,
-                (float)ScreenWidth / VirtualWidth,
+                (float)ScreenWidth/VirtualWidth, 
+                (float)ScreenWidth/VirtualWidth, 
                 1f, out scaleMatrix);
 
             dirtyMatrix = false;
@@ -125,7 +157,7 @@ namespace Ricoh2DFramework.Graphics
         public Vector2 ScaleMouseToScreenCoordinates(Vector2 screenPosition)
         {
             //Converts Mouse Coordinates from Screen to Virtual Screen
-
+            
             Vector2 real = new Vector2(
                 screenPosition.X - viewport.X,
                 screenPosition.Y - viewport.Y);
@@ -139,8 +171,8 @@ namespace Ricoh2DFramework.Graphics
         public void SetupVirtualScreenViewport()
         {
             //Sets the viewport to fit with the virtual resolution
-
-            float targetAspectRatio = VirtualWidth / (float)VirtualHeight;
+            
+            float targetAspectRatio = ((float)VirtualWidth / VirtualHeight);
 
             float width = ScreenWidth;
             float height = (int)(width / targetAspectRatio + 0.5f);
@@ -151,8 +183,8 @@ namespace Ricoh2DFramework.Graphics
                 width = (int)(height * targetAspectRatio + 0.5f);
             }
 
-            viewport = new Viewport(
-                    (int)((ScreenWidth / 2) - (width / 2)),
+            viewport = new Viewport( 
+                    (int)((ScreenWidth/2) - (width/2)),
                     (int)((ScreenHeight / 2) - (height / 2)),
                     (int)width,
                     (int)height);

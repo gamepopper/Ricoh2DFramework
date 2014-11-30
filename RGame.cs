@@ -45,6 +45,7 @@ namespace Ricoh2DFramework
         SpriteBatch spriteBatch;
         Texture2D background;
         IRState currentState;
+        bool dirtyGraphics = false;
 
         public RGame(IRState initialState, int ScreenWidth = 1280, int ScreenHeight= 720)
         {
@@ -71,9 +72,17 @@ namespace Ricoh2DFramework
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
 
+            RGlobal.Game = this;
+
             RGlobal.Resolution = new Resolution(this, VirtualWidth, VirtualHeight, ScreenWidth, ScreenHeight);
             RGlobal.MainCamera = new Camera2D(RGlobal.Resolution);
+            RGlobal.Cameras = new List<Camera2D>();
             RGlobal.Cameras.Add(RGlobal.MainCamera);
+
+            RGlobal.Music = new MusicManager();
+            RGlobal.Sound = new SoundManager();
+
+            RGlobal.Input = new InputHelper();
 
             currentState = initialState;
         }
@@ -94,12 +103,25 @@ namespace Ricoh2DFramework
             RGlobal.Input = new InputHelper();
             RGlobal.Input.Update();
 
+            Primitives.Initialise(GraphicsDevice);
+
             currentState.Initialize();
 
-            background = new Texture2D(GraphicsDevice, 1, 1);
-            background.SetData<Color>(new Color[] { Color.White });
+            Window.AllowUserResizing = true;
+            Window.ClientSizeChanged += new EventHandler<EventArgs>(OnResize);
 
             base.Initialize();
+        }
+
+        protected void OnResize(object sender, EventArgs e)
+        {
+            RGlobal.Resolution.ScreenWidth = Window.ClientBounds.Width;
+            RGlobal.Resolution.ScreenHeight = Window.ClientBounds.Height;
+
+            RGlobal.Resolution.Initialise();
+            RGlobal.MainCamera.RecalculateTransformationMatrix();
+
+            dirtyGraphics = true;
         }
 
 
@@ -117,6 +139,12 @@ namespace Ricoh2DFramework
 
         protected override void Update(GameTime gameTime)
         {
+            if (dirtyGraphics)
+            {
+                this.graphics.ApplyChanges();
+                dirtyGraphics = false;
+            }
+            
             RGlobal.Input.Update();
             
             currentState.Update(gameTime);
@@ -128,7 +156,7 @@ namespace Ricoh2DFramework
         {
             RGlobal.Resolution.BeginDraw();
             spriteBatch.Begin();
-            spriteBatch.Draw(background, new Rectangle(0, 0, RGlobal.Resolution.VirtualWidth, RGlobal.Resolution.VirtualHeight), RGlobal.BackgroundColor);
+            Primitives.DrawRectangle(spriteBatch, new Rectangle(0, 0, RGlobal.Resolution.ScreenWidth, RGlobal.Resolution.ScreenHeight), RGlobal.BackgroundColor, true);
             spriteBatch.End();
             currentState.Draw(spriteBatch);
 
