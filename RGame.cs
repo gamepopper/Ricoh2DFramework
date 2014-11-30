@@ -139,8 +139,6 @@ namespace Ricoh2DFramework
         {
             currentState.UnloadContent();
             currentState = newState;
-            currentState.Initialize();
-            currentState.LoadContent(Content);
         }
     }
 }
