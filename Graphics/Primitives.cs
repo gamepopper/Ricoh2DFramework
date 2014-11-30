@@ -149,11 +149,11 @@ namespace Ricoh2DFramework.Graphics
 
             if (filled)
             {
-                int minX = (int)min.X;
+                int minX = (int)min.X - 2;
                 for (int y = (int)min.Y; y < max.Y; y++)
                 {
                     List<Vector2> lineNodes = new List<Vector2>();
-                    Line line = new Line(new Vector2(minX, y), new Vector2(minX + 10000, y));
+                    Line line = new Line(new Vector2(minX, y), new Vector2(minX + 10002, y));
 
                     foreach (Line l in lines)
                     {
@@ -161,7 +161,7 @@ namespace Ricoh2DFramework.Graphics
                         if (CollisionListener.LineIntersect(line, l, out node) ) 
                             lineNodes.Add(node);
                     }
-                    lineNodes.Sort(new CompareByY());
+                    lineNodes.Sort(new CompareByX());
 
                     for (int n = 0; n < lineNodes.Count; n += 2)
                     {
@@ -169,11 +169,40 @@ namespace Ricoh2DFramework.Graphics
                             DrawLine(spriteBatch, new Line(lineNodes[n], lineNodes[n + 1]), color, 1);
                     }
                 }
+
+                foreach (Line l1 in lines)
+                {
+                    foreach (Line l2 in lines)
+                    {
+                        if (l1 != l2)
+                        {
+                            if (l1.StartPoint.Y == l2.StartPoint.Y)
+                            {
+                                DrawLine(spriteBatch, new Line(l1.StartPoint, l2.StartPoint), color, 1);
+                            }
+
+                            if (l1.EndPoint.Y == l2.EndPoint.Y)
+                            {
+                                DrawLine(spriteBatch, new Line(l1.EndPoint, l2.EndPoint), color, 1);
+                            }
+
+                            if (l1.StartPoint.Y == l2.EndPoint.Y)
+                            {
+                                DrawLine(spriteBatch, new Line(l1.StartPoint, l2.EndPoint), color, 1);
+                            }
+
+                            if (l1.EndPoint.Y == l2.StartPoint.Y)
+                            {
+                                DrawLine(spriteBatch, new Line(l1.EndPoint, l2.StartPoint), color, 1);
+                            }
+                        }
+                    }
+                }
             }
         }
     }
 
-    class CompareByY : IComparer<Vector2>
+    class CompareByX : IComparer<Vector2>
     {
         public int Compare(Vector2 x, Vector2 y)
         {
