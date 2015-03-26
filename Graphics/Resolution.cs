@@ -42,6 +42,7 @@ namespace Ricoh2DFramework.Graphics
         private bool dirtyMatrix;
         public bool RenderingToScreenIsFinished;
         private static Matrix scaleMatrix;
+        private float scale;
 
         public Resolution(Game _game)
         {
@@ -59,33 +60,7 @@ namespace Ricoh2DFramework.Graphics
             BackgroundColor = Color.Black;
         }
 
-        public Resolution(Game _game, int virtualWidth, int virtualHeight)
-        {
-            game = _game;
-            
-            VirtualWidth = virtualWidth;
-            VirtualHeight = virtualHeight;
-
-            ScreenWidth = virtualWidth;
-            ScreenHeight = virtualHeight;
-
-            BackgroundColor = Color.Black;
-        }
-
-        public Resolution(Game _game, int virtualWidth, int virtualHeight, int screenWidth, int screenHeight)
-        {
-            game = _game;
-            
-            VirtualWidth = virtualWidth;
-            VirtualHeight = virtualHeight;
-
-            ScreenWidth = screenWidth;
-            ScreenHeight = screenHeight;
-
-            BackgroundColor = Color.Black;
-        }
-
-        public Resolution(Game _game, int virtualWidth, int virtualHeight, int screenWidth, int screenHeight, Color color)
+        public Resolution(Game _game, int virtualWidth = 1366, int virtualHeight = 768, int screenWidth = 1024, int screenHeight = 768)
         {
             game = _game;
 
@@ -95,7 +70,7 @@ namespace Ricoh2DFramework.Graphics
             ScreenWidth = screenWidth;
             ScreenHeight = screenHeight;
 
-            BackgroundColor = color;
+            BackgroundColor = Color.Black;
         }
 
         public void Initialise()
@@ -138,26 +113,21 @@ namespace Ricoh2DFramework.Graphics
         {
             if (dirtyMatrix)
                 RecreateScaleMatrix();
-                
+
             return scaleMatrix;
         }
 
         private void RecreateScaleMatrix()
         {
             //Scale's the graphical components to fit the virtual resolution
-
-            Matrix.CreateScale(
-                (float)ScreenWidth/VirtualWidth, 
-                (float)ScreenWidth/VirtualWidth, 
-                1f, out scaleMatrix);
-
+            Matrix.CreateScale((float)scale, (float)scale, 1f, out scaleMatrix);
             dirtyMatrix = false;
         }
 
         public Vector2 ScaleMouseToScreenCoordinates(Vector2 screenPosition)
         {
             //Converts Mouse Coordinates from Screen to Virtual Screen
-            
+
             Vector2 real = new Vector2(
                 screenPosition.X - viewport.X,
                 screenPosition.Y - viewport.Y);
@@ -171,23 +141,24 @@ namespace Ricoh2DFramework.Graphics
         public void SetupVirtualScreenViewport()
         {
             //Sets the viewport to fit with the virtual resolution
-            
-            float targetAspectRatio = ((float)VirtualWidth / VirtualHeight);
+            int height, width;
+            float widthScale = 0, heightScale = 0;
+            widthScale = (float)ScreenWidth / (float)VirtualWidth;
+            heightScale = (float)ScreenHeight / (float)VirtualHeight;
 
-            float width = ScreenWidth;
-            float height = (int)(width / targetAspectRatio + 0.5f);
+            scale = Math.Min(widthScale, heightScale);
 
-            if (height > ScreenHeight)
+            width = (int)(VirtualWidth * scale);
+            height = (int)(VirtualHeight * scale);
+
+            // set up the new viewport centered in the backbuffer
+            viewport = new Viewport
             {
-                height = ScreenHeight;
-                width = (int)(height * targetAspectRatio + 0.5f);
-            }
-
-            viewport = new Viewport( 
-                    (int)((ScreenWidth/2) - (width/2)),
-                    (int)((ScreenHeight / 2) - (height / 2)),
-                    (int)width,
-                    (int)height);
+                X = (ScreenWidth - width) / 2,
+                Y = (ScreenHeight - height) / 2,
+                Width = width,
+                Height = height
+            };
 
             game.GraphicsDevice.Viewport = viewport;
         }
