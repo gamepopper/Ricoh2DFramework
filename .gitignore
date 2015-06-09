@@ -1,6 +1,5 @@
 # Windows image file caches
 Thumbs.db
-ehthumbs.db
 
 # Folder config file
 Desktop.ini
@@ -39,11 +38,9 @@ Icon
 *.pdb
 *.suo
 
-/bin/*
-/obj/*
-/Ricoh2DMonoTestDX/*
-/Ricoh2DMonoTestGL/*
-/Ricoh2DTestContent/*
+Ricoh2D/bin/*
+Ricoh2D/obj/*
+/Ricoh2DSampleTest/*
 
 *.xnb
 *.wav
