@@ -34,6 +34,7 @@ namespace Ricoh2DFramework.Graphics
         private Matrix transform = Matrix.Identity;
         private bool dirtyTransform = true;
 
+        private Resolution resolution;
         private Matrix camTranslate = Matrix.Identity;
         private Matrix camRotation = Matrix.Identity;
         private Matrix camScale = Matrix.Identity;
@@ -43,10 +44,9 @@ namespace Ricoh2DFramework.Graphics
         private Vector3 camScaleVector = Vector3.Zero;
         private Vector3 resTranslateVector = Vector3.Zero;
 
-        public Camera2D() { }
-
-        public Camera2D(Resolution resIndependant)
+        public Camera2D(Resolution resolution)
         {
+            this.resolution = resolution;
             zoom = 1f;
             rotation = 0f;
             position = Vector2.Zero;
@@ -100,6 +100,8 @@ namespace Ricoh2DFramework.Graphics
         {
             if (dirtyTransform)
             {
+                Vector2 resCentre = new Vector2(resolution.VirtualWidth, resolution.VirtualHeight) / 2;
+
                 camTranslateVector.X = -position.X;
                 camTranslateVector.Y = -position.Y;
 
@@ -115,7 +117,8 @@ namespace Ricoh2DFramework.Graphics
                 transform =
                     camTranslate *
                     camRotation *
-                    camScale;
+                    camScale *
+                    Matrix.CreateTranslation(new Vector3(resCentre, 1));
 
                 dirtyTransform = false;
             }
