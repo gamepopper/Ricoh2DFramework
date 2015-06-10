@@ -32,23 +32,6 @@ namespace Ricoh2DFramework.Graphics
         public Texture2D Texture;
         public AnimationManager Animation;
 
-        public override Color[] ColourData
-        {
-            get
-            {
-                if (Animation.currAnim == null || Animation.currAnimName.Equals(""))
-                {
-                    return base.ColourData;
-                }
-
-                Color[] newColour = new Color[width * height];
-
-                Texture.GetData(0, new Rectangle(Animation.getCurrentColumn() * width, Animation.getCurrentRow() * height, width, height), newColour, 0, newColour.Length);
-
-                return newColour;
-            }
-        }
-
         public Sprite(Texture2D texture, int width = 0, int height = 0) : base()
         {
             this.Texture = texture;
@@ -61,42 +44,24 @@ namespace Ricoh2DFramework.Graphics
 
             Animation = new AnimationManager(texture.Height/this.height, texture.Width/this.width);
 
-            collisionBox = new Rectangle((int)(position.X - origin.X), (int)(position.Y - origin.Y), width, height);
-            collisionCircle = new Circle(position, width / 2);
-            collisionPolygon = new Polygon(this.width, this.height);
-            colourData = new Color[texture.Width * texture.Height];
-            texture.GetData(colourData);
+            Collider.SetSize(width, height);
+            Collider.SetOrigin(origin);
+            Collider.SetTransform(position, rotation, scale);
         }
 
         public override void Update(GameTime gameTime)
         {
             Animation.Update(gameTime);
 
-            if (dirtyTransform)
+            if (Animation.currAnim == null || Animation.currAnimName.Equals(""))
             {
-                Transform = Matrix.Identity;
-                Transform *= Matrix.CreateTranslation(new Vector3(-origin, 0));
-                Transform *= Matrix.CreateScale(new Vector3(scale, 1));
-                Transform *= Matrix.CreateRotationZ(rotation);
-                Transform *= Matrix.CreateTranslation(new Vector3(position, 0));
-
-                Vector2 centrePos = PositionCentre;
-
-                collisionBox.X = (int)(position.X - origin.X);
-                collisionBox.Y = (int)(position.Y - origin.Y);
-                collisionBox.Width = width;
-                collisionBox.Height = height;
-                collisionBox.Inflate(collisionOffset, collisionOffset);
-
-                collisionCircle.Position = centrePos;
-                collisionCircle.Radius = (width / 2) + collisionOffset;
-                collisionCircle.Radius *= (scale.X + scale.Y) / 2;
-
-                collisionPolygon.Position = centrePos;
-                collisionPolygon.Rotation = rotation;
-                collisionPolygon.Scale = scale;
-
-                dirtyTransform = false;
+                Collider.ColourData = new Color[width * height];
+                Texture.GetData(0, Collider.RenderBox, Collider.ColourData, 0, Collider.ColourData.Length);
+            }
+            else
+            {
+                Collider.ColourData = new Color[width * height];
+                Texture.GetData(0, new Rectangle(Animation.getCurrentColumn() * width, Animation.getCurrentRow() * height, width, height), Collider.ColourData, 0, Collider.ColourData.Length);
             }
 
             base.Update(gameTime);

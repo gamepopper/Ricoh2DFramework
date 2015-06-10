@@ -49,6 +49,7 @@
     <Compile Include="Audio\MusicManager.cs" />
     <Compile Include="Audio\SoundManager.cs" />
     <Compile Include="Collisions\Circle.cs" />
+    <Compile Include="Collisions\Collision.cs" />
     <Compile Include="Collisions\CollisionListener.cs" />
     <Compile Include="Collisions\CollisionManager.cs" />
     <Compile Include="Collisions\Line.cs" />

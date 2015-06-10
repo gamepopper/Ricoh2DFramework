@@ -23,6 +23,11 @@ namespace Ricoh2DFramework.Collisions
         public Vector2 Position;
         public float Scale = 1;
 
+        public Circle()
+        {
+
+        }
+
         public Circle(float X, float Y, float radius)
         {
             Position = new Vector2(X, Y);

@@ -36,7 +36,17 @@ namespace Ricoh2DFramework.Collisions
         private int texWidth, texHeight;
         private Vector2 StartPoint = new Vector2(-999999, -999999);
 
+        public Polygon()
+        {
+            
+        }
+
         public Polygon(int width, int height)
+        {
+            SetTextureSize(width, height);
+        }
+
+        public void SetTextureSize(int width, int height)
         {
             texWidth = width;
             texHeight = height;

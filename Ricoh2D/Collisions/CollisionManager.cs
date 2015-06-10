@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Ricoh2DFramework;
+using Ricoh2DFramework.Collisions;
 
 /*The MIT License (MIT)
 
@@ -40,36 +41,36 @@ namespace Ricoh2DFramework.Collisions
 
     public class CollisionManager
     {
-        public static bool Overlap(RObject object1, RObject object2, CollisionType Type = CollisionType.Box, ResponseFunction f = null)
+        public static bool Overlap(Collision collider1, Collision collider2, CollisionType Type = CollisionType.Box, ResponseFunction f = null)
         {
             switch (Type)
             {
                 case CollisionType.Circle:
-                    if (CollisionListener.CircleCollision(object1.Circle, object2.Circle))
+                    if (CollisionListener.CircleCollision(collider1.Circle, collider2.Circle))
                     {
                         return callResponse(f);
                     }
                     break;
                 case CollisionType.Polygon:
-                    if (CollisionListener.BoxCollision(object1.Box, object2.Box))
+                    if (CollisionListener.BoxCollision(collider1.Box, collider2.Box))
                     {
-                        if (CollisionListener.PolygonCollision(object1.Polygon, object2.Polygon))
+                        if (CollisionListener.PolygonCollision(collider1.Polygon, collider2.Polygon))
                         {
                             return callResponse(f);
                         }
                     }
                     break;
                 case CollisionType.Pixel:
-                    if (CollisionListener.BoxCollision(object1.Box, object2.Box))
+                    if (CollisionListener.BoxCollision(collider1.Box, collider2.Box))
                     {
-                        if (CollisionListener.PixelCollision(object1.Transform, object1.RenderBox, object1.ColourData, object2.Transform, object2.RenderBox, object2.ColourData))
+                        if (CollisionListener.PixelCollision(collider1.Transform, collider1.RenderBox, collider1.ColourData, collider2.Transform, collider2.RenderBox, collider2.ColourData))
                         {
                             return callResponse(f);
                         }
                     }
                     break;
                 default:
-                    if (CollisionListener.BoxCollision(object1.Box, object2.Box))
+                    if (CollisionListener.BoxCollision(collider1.Box, collider2.Box))
                     {
                         return callResponse(f);
                     }
@@ -79,36 +80,36 @@ namespace Ricoh2DFramework.Collisions
             return false;
         }
 
-        public static bool Collide(RObject object1, RObject object2, CollisionType Type = CollisionType.Box, ResponseFunction f = null)
+        public static bool Collide(Collision collider1, Collision collider2, CollisionType Type = CollisionType.Box, ResponseFunction f = null)
         {
             switch (Type)
             {
                 case CollisionType.Circle:
-                    if (CollisionListener.CircleCollision(object1.Circle, object2.Circle))
+                    if (CollisionListener.CircleCollision(collider1.Circle, collider2.Circle))
                     {
                         return callResponse(f);
                     }
                     break;
                 case CollisionType.Polygon:
-                    if (CollisionListener.BoxCollision(object1.Box, object2.Box))
+                    if (CollisionListener.BoxCollision(collider1.Box, collider2.Box))
                     {
-                        if (CollisionListener.PolygonCollision(object1.Polygon, object2.Polygon))
+                        if (CollisionListener.PolygonCollision(collider1.Polygon, collider2.Polygon))
                         {
                             return callResponse(f);
                         }
                     }
                     break;
                 case CollisionType.Pixel:
-                    if (CollisionListener.BoxCollision(object1.Box, object2.Box))
+                    if (CollisionListener.BoxCollision(collider1.Box, collider2.Box))
                     {
-                        if (CollisionListener.PixelCollision(object1.Transform, object1.RenderBox, object1.ColourData, object2.Transform, object2.RenderBox, object2.ColourData))
+                        if (CollisionListener.PixelCollision(collider1.Transform, collider1.RenderBox, collider1.ColourData, collider2.Transform, collider2.RenderBox, collider2.ColourData))
                         {
                             return callResponse(f);
                         }
                     }
                     break;
                 default:
-                    if (CollisionListener.BoxCollision(object1.Box, object2.Box))
+                    if (CollisionListener.BoxCollision(collider1.Box, collider2.Box))
                     {
                         return callResponse(f);
                     }
