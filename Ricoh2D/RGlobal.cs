@@ -16,7 +16,7 @@ namespace Ricoh2DFramework
 {
     public class RGlobal
     {
-        public static Game Game;
+        public static RGame Game;
 
         public static Resolution Resolution;
         public static List<Camera2D> Cameras;

@@ -40,19 +40,17 @@ namespace Ricoh2DFramework
 {
     public class RGame : Game
     {
-        GraphicsDeviceManager graphics;
-        SpriteBatch spriteBatch;
-
-        IRState currentState;
-        bool dirtyGraphics = false;
+        private GraphicsDeviceManager graphicsDeviceManager;
+        private SpriteBatch spriteBatch;
+        private IRState currentState;
+        private bool dirtyGraphics = false;
 
         public RGame(IRState initialState, int ScreenWidth = 1280, int ScreenHeight = 720, int VirtualWidth = 1280, int VirtualHeight = 720)
         {
-            graphics = new GraphicsDeviceManager(this);
+            graphicsDeviceManager = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
 
             RGlobal.Game = this;
-
             RGlobal.Resolution = new Resolution(this, VirtualWidth, VirtualHeight, ScreenWidth, ScreenHeight);
             RGlobal.MainCamera = new Camera2D(RGlobal.Resolution);
             RGlobal.Cameras = new List<Camera2D>();
@@ -68,9 +66,9 @@ namespace Ricoh2DFramework
 
         protected override void Initialize()
         {
-            this.graphics.PreferredBackBufferWidth = RGlobal.Resolution.ScreenWidth;
-            this.graphics.PreferredBackBufferHeight = RGlobal.Resolution.ScreenHeight;
-            this.graphics.ApplyChanges();
+            this.graphicsDeviceManager.PreferredBackBufferWidth = RGlobal.Resolution.ScreenWidth;
+            this.graphicsDeviceManager.PreferredBackBufferHeight = RGlobal.Resolution.ScreenHeight;
+            this.graphicsDeviceManager.ApplyChanges();
 
             RGlobal.RenderBuffer = new RenderTarget2D(GraphicsDevice, RGlobal.Resolution.VirtualWidth, RGlobal.Resolution.VirtualHeight);
 
@@ -88,7 +86,6 @@ namespace Ricoh2DFramework
 
             currentState.Initialize();
 
-            Window.AllowUserResizing = true;
             Window.ClientSizeChanged += new EventHandler<EventArgs>(OnResize);
 
             base.Initialize();
@@ -98,8 +95,8 @@ namespace Ricoh2DFramework
         {
             RGlobal.Resolution.ScreenWidth = Window.ClientBounds.Width;
             RGlobal.Resolution.ScreenHeight = Window.ClientBounds.Height;
-            this.graphics.PreferredBackBufferWidth = RGlobal.Resolution.ScreenWidth;
-            this.graphics.PreferredBackBufferHeight = RGlobal.Resolution.ScreenHeight;
+            this.graphicsDeviceManager.PreferredBackBufferWidth = RGlobal.Resolution.ScreenWidth;
+            this.graphicsDeviceManager.PreferredBackBufferHeight = RGlobal.Resolution.ScreenHeight;
 
             RGlobal.Resolution.Initialise();
             RGlobal.MainCamera.RecalculateTransformationMatrix();
@@ -124,7 +121,7 @@ namespace Ricoh2DFramework
         {
             if (dirtyGraphics)
             {
-                this.graphics.ApplyChanges();
+                this.graphicsDeviceManager.ApplyChanges();
                 dirtyGraphics = false;
             }
             
@@ -162,6 +159,19 @@ namespace Ricoh2DFramework
         {
             currentState.UnloadContent();
             currentState = newState;
+        }
+
+        public void SetFullscreen(bool fullscreen)
+        {
+
+            this.graphicsDeviceManager.IsFullScreen = fullscreen;
+            dirtyGraphics = true;
+        }
+
+        public void ToggleFullscreen()
+        {
+            this.graphicsDeviceManager.ToggleFullScreen();
+            dirtyGraphics = true;
         }
     }
 }
