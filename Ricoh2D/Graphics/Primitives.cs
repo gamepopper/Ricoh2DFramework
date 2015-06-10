@@ -31,18 +31,18 @@ namespace Ricoh2DFramework.Graphics
 {
     public class Primitives
     {
-        private static Texture2D debugTexture;
+        private static Texture2D pixel;
         
         public static void Initialise(GraphicsDevice graphicsDevice)
         {
-            debugTexture = new Texture2D(graphicsDevice, 1, 1);
-            debugTexture.SetData<Color>(new Color[] { Color.White });
+            pixel = new Texture2D(graphicsDevice, 1, 1);
+            pixel.SetData<Color>(new Color[] { Color.White });
         }
 
         public static void DrawRectangle(SpriteBatch spriteBatch, Rectangle Rectangle, Color color, bool filled=false, int thickness=1)
         {
             if (filled)
-                spriteBatch.Draw(debugTexture, Rectangle, color);
+                spriteBatch.Draw(pixel, Rectangle, color);
             else
             {
                 Vector2 leftTop = new Vector2(Rectangle.Left, Rectangle.Top);
@@ -117,7 +117,7 @@ namespace Ricoh2DFramework.Graphics
 
         public static void DrawPixel(SpriteBatch spriteBatch, Vector2 Position, Color color)
         {
-            DrawRectangle(spriteBatch, new Rectangle((int)Position.X, (int)Position.Y, 1, 1), color, true);
+            spriteBatch.Draw(pixel, Position, color);
         }
 
         public static void DrawLine(SpriteBatch spriteBatch, Line Line, Color color, int thickness = 1)
@@ -129,7 +129,7 @@ namespace Ricoh2DFramework.Graphics
             Vector2 edge = end - start;
             float angle = (float)Math.Atan2(edge.Y, edge.X);
 
-            spriteBatch.Draw(debugTexture, new Rectangle((int)start.X,(int)start.Y,(int)edge.Length(), thickness), null, color, angle, new Vector2(0, 0), SpriteEffects.None, 0);
+            spriteBatch.Draw(pixel, new Rectangle((int)start.X,(int)start.Y,(int)edge.Length(), thickness), null, color, angle, new Vector2(0, 0), SpriteEffects.None, 0);
         }
         public static void DrawPolygon(SpriteBatch spriteBatch, Polygon Polygon, Color color, bool filled=false, int thickness = 1)
         {

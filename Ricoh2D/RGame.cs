@@ -135,6 +135,7 @@ namespace Ricoh2DFramework
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.SetRenderTarget(RGlobal.RenderBuffer);
+            GraphicsDevice.Clear(RGlobal.BackgroundColor);
             currentState.Draw(spriteBatch);
             GraphicsDevice.SetRenderTarget(null);
 
