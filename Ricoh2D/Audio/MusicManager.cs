@@ -71,7 +71,7 @@ namespace Ricoh2DFramework.Audio
             return song;
         }
 
-        public void Play(string key, bool looped = false)
+        public void Play(string key, float volume = 1.0f, bool looped = false, bool shuffle = false)
         {
             Song song = Get(key);
 
@@ -79,6 +79,8 @@ namespace Ricoh2DFramework.Audio
             {
                 if (MediaPlayer.Queue.ActiveSong != song)
                 {
+                    MediaPlayer.Volume = volume;
+                    MediaPlayer.IsShuffled = shuffle;
                     MediaPlayer.IsRepeating = looped;
                     MediaPlayer.Play(song);
                 }
@@ -89,10 +91,26 @@ namespace Ricoh2DFramework.Audio
             {
                 if (MediaPlayer.Queue.ActiveSong != songCollection[0])
                 {
+                    MediaPlayer.Volume = volume;
+                    MediaPlayer.IsShuffled = shuffle;
                     MediaPlayer.IsRepeating = looped;
                     MediaPlayer.Play(songCollection);
                 }
             }
+        }
+
+        public void Pause()
+        {
+            if (MediaPlayer.State == MediaState.Playing)
+                MediaPlayer.Pause();
+            else
+                MediaPlayer.Resume();
+            
+        }
+
+        public void Stop()
+        {
+            MediaPlayer.Stop();
         }
     }
 }
