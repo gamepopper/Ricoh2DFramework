@@ -31,6 +31,15 @@ THE SOFTWARE.
 
 namespace Ricoh2DFramework.Input
 {
+    public enum MouseButtons
+    {
+        LEFT,
+        MIDDLE,
+        RIGHT,
+        XBUTTON1,
+        XBUTTON2
+    }
+
     public class InputHelper
     {
         KeyboardState currentKeyState;

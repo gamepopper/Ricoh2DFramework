@@ -28,6 +28,13 @@ THE SOFTWARE.
 
 namespace Ricoh2DFramework.Graphics
 {
+    public enum TextAlignment
+    {
+        LEFT,
+        CENTER,
+        RIGHT
+    }
+
     public class Text : RBasic
     {     
         protected SpriteFont Font;

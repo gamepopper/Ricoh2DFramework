@@ -26,7 +26,7 @@ THE SOFTWARE.
 
 namespace Ricoh2DFramework.Graphics
 {
-    public class Resolution  //code based off RoboBlob's method for solving resolution independance
+    public class Resolution
     {
         private readonly Game game;
         private Viewport viewport;

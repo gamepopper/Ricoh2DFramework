@@ -25,6 +25,11 @@ THE SOFTWARE.
 
 namespace Ricoh2DFramework.Graphics
 {
+    public enum AnimationStates
+    {
+        PAUSE, FORWARD, BACKWARD
+    }
+
     public class Animation
     {
         private int[] frames = {}; //Frames to use, based on sprite sheet left-to-right and top-to-bottom.

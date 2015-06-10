@@ -28,6 +28,14 @@ THE SOFTWARE.
 
 namespace Ricoh2DFramework.Collisions
 {
+    public enum CollisionType
+    {
+        Box,
+        Circle,
+        Polygon,
+        Pixel
+    }
+
     public delegate void ResponseFunction();
 
     public class CollisionManager
