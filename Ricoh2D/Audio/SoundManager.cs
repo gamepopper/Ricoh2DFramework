@@ -52,7 +52,6 @@ namespace Ricoh2DFramework.Audio
                 SoundEffect effect = Get(key);
                 if (effect != null)
                     effect.Dispose();
-                SoundEffectList.Remove(key);
             }
             Stop(key);
         }
@@ -63,6 +62,8 @@ namespace Ricoh2DFramework.Audio
             {
                 Remove(key);
             }
+            SoundEffectList.Clear();
+            SoundEffectInstanceList.Clear();
         }
 
         private SoundEffect Get(string key)

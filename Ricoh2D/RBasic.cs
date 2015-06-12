@@ -75,6 +75,18 @@ namespace Ricoh2DFramework
             }
         }
 
+        public virtual SpriteEffects SpriteEffects
+        {
+            get
+            {
+                return spriteEffects;
+            }
+            set
+            {
+                spriteEffects = value;
+            }
+        }
+
         public virtual Color Color
         {
             get { return color; }

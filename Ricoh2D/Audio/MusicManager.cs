@@ -112,5 +112,11 @@ namespace Ricoh2DFramework.Audio
         {
             MediaPlayer.Stop();
         }
+
+        public void Clear()
+        {
+            SongList.Clear();
+            SongCollectionList.Clear();
+        }
     }
 }

@@ -30,7 +30,7 @@ namespace Ricoh2DFramework.Graphics
     public class AnimationManager
     {
         public string currAnimName = "";
-        public Animation currAnim;
+        public Animation currAnim = null;
         private int rows;
         private int columns;
 
